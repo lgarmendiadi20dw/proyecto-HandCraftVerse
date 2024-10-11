@@ -26,6 +26,9 @@ public class Vendedor extends Usuario{
 
     @OneToMany(mappedBy = "vendedor")
     private List<RedesSociales> redes_sociales;
+
+    @OneToMany(mappedBy = "vendedor")
+    private List<Producto> productos;
     
     
     public Vendedor(String dni,String nombre_usuario,String nombre,String apellidos,String email,String contrasena,String imagen,int telefono, String descripcion){

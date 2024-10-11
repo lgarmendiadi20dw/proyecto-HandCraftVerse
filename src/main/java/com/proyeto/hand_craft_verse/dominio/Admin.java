@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Admin extends Usuario{
-    
+    private int nivel;
 }

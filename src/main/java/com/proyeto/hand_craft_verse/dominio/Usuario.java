@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Usuarios")
+@Table(name="Usuario")
 public class Usuario {
 
     @Id
@@ -24,6 +24,7 @@ public class Usuario {
     private String nombre;
 
     private String apellidos;
+    // private int edad;
 
     @Column(unique = true, nullable = false)
     private String email;

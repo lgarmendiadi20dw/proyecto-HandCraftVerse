@@ -2,26 +2,33 @@ package com.proyeto.hand_craft_verse.dominio;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="RedesSociales")
-public class RedesSociales {
+@Table(name="pedido_producto")
+public class PedidoProducto {
 
     @EmbeddedId
-    private String rrssId;
-
-    // Relación ManyToOne con Vendedor
+    private PedidoProductoId id;
+    
     @ManyToOne
-    @JoinColumn(name = "vendedor_id", nullable = false)
-    private Vendedor vendedor;
+    @MapsId("pedido")
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;  
 
+    
+    private int cantidad;
+
+    
 }
+
