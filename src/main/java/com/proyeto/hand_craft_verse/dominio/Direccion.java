@@ -41,6 +41,6 @@ public class Direccion {
     @OneToMany(mappedBy = "direccion")
     private List<Pedido> pedidos;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TipoDireccion tipoDireccion; 
 }

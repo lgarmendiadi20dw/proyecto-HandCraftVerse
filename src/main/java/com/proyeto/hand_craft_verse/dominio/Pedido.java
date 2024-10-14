@@ -37,7 +37,7 @@ public class Pedido {
 
     private String numeroSeguimiento;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
 
     @ManyToOne

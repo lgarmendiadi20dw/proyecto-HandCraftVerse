@@ -1,11 +1,7 @@
 package com.proyeto.hand_craft_verse.persistencia;
 
-import java.awt.Color;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.Bean;
 
