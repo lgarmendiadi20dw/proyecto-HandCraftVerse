@@ -31,15 +31,17 @@ public class Pedido {
 
     @ManyToOne
     @JoinColumn(name = "id_comprador")
-    @JsonBackReference
     private Comprador comprador;
 
     private Date fechaCompra;
 
     private String numeroSeguimiento;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated
     private EstadoPedido estado;
+
+    @ManyToOne
+    @JoinColumn(name="direccion")
     private Direccion direccion;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)

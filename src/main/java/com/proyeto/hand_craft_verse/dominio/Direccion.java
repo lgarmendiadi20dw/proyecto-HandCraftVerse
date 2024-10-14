@@ -1,5 +1,7 @@
 package com.proyeto.hand_craft_verse.dominio;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Direccion") 
 public class Direccion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Usa IDENTITY si usas bases de datos autoincrementales
+    @GeneratedValue
     private int id;
 
     @ManyToOne
@@ -35,6 +38,9 @@ public class Direccion {
     private int numTelefono; 
     private String destinatario;
 
-    @Enumerated(EnumType.STRING)
-    private TipoDireccion tipoDireccion; // Este debe ser compatible con la base de datos
+    @OneToMany(mappedBy = "direccion")
+    private List<Pedido> pedidos;
+
+    @Enumerated
+    private TipoDireccion tipoDireccion; 
 }

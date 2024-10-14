@@ -37,9 +37,5 @@ public class Vendedor extends Usuario{
         this.descripcion=descripcion;
     }
 
-    public Vendedor(String dni,String nombre_usuario,String nombre,String apellidos,String email,String contrasena,String imagen,int telefono, int num_ventas,String descripcion){
-        super( dni, nombre_usuario, nombre, apellidos, email, contrasena, imagen, telefono);
-        this.num_ventas=num_ventas;
-        this.descripcion=descripcion;
-    }
+    
 }
