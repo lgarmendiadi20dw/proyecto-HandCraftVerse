@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class Persistencia<T> implements IPersisitencia<T> {
+public class Persistencia<T> implements IPersistencia<T> {
 
     private Session session;
     private Class<T> classType;

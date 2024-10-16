@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.Bean;
 
+
 import com.proyeto.hand_craft_verse.dominio.Categoria;
 import com.proyeto.hand_craft_verse.dominio.Colore;
 import com.proyeto.hand_craft_verse.dominio.Comentario;
@@ -21,7 +22,11 @@ import com.proyeto.hand_craft_verse.dominio.Vendedor;
 
 @org.springframework.context.annotation.Configuration
 public class PersistenciaConfiguracion {
-    
+    @Bean
+    public IPersistencia<Usuario> getPersistenciaUsuario(){
+        
+        return new Persistencia<Usuario>(getSession(), Usuario.class); 
+    }
 
    @Bean
     public Session getSession() {

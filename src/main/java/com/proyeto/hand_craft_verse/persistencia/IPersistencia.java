@@ -2,7 +2,7 @@ package com.proyeto.hand_craft_verse.persistencia;
 
 import java.util.List;
 
-public interface IPersisitencia<T> {
+public interface IPersistencia<T> {
     
     public boolean guardar(T t);
 
