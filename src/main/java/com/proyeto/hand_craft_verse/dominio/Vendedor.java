@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Vendedor extends Usuario{
@@ -24,15 +23,17 @@ public class Vendedor extends Usuario{
     
     private String descripcion;
 
-    @OneToMany(mappedBy = "vendedor")
-    private List<RedesSociales> redes_sociales;
+    // @OneToMany(mappedBy = "vendedor")
+    // private List<RedesSociales> redes_sociales;
 
     @OneToMany(mappedBy = "vendedor")
     private List<Producto> productos;
     
     
-    public Vendedor(String dni,String nombre_usuario,String nombre,String apellidos,String email,String contrasena,String imagen,int telefono, String descripcion){
-        super( dni, nombre_usuario, nombre, apellidos, email, contrasena, imagen, telefono);
+
+    
+    public Vendedor(String dni,String nombre_usuario,String nombre,String apellidos,String email,String contrasena, int telefono, String descripcion){
+        super( dni, nombre_usuario, nombre, apellidos, email, contrasena, telefono);
         this.num_ventas=0;
         this.descripcion=descripcion;
     }

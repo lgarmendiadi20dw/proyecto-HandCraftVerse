@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class RedesSociales {
 
     @EmbeddedId
-    private String rrssId;
+    private RedesSocialesId rrssId;
 
     // Relación ManyToOne con Vendedor
     @ManyToOne

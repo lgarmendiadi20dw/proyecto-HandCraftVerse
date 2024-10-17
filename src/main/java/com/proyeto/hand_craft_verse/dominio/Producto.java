@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -42,10 +43,23 @@ public class Producto {
     @ManyToMany(mappedBy = "productosFavoritos", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comprador> compradoresFavoritos;
 
-    @ManyToMany(mappedBy = "productos", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Colore> colores;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(
+        name = "color_producto", 
+        joinColumns = @JoinColumn(name = "producto"),  
+        inverseJoinColumns = @JoinColumn(name = "color") 
+    )
+    private List<Colore> colores ;
 
     @OneToMany
     (mappedBy="producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Multimedia> multimedias;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(
+        name = "producto_categoria",  // Nombre de la tabla intermedia
+        joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
+        inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
+    )
+    private List<Categoria> categorias;
 }

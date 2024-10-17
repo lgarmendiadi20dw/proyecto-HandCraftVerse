@@ -10,20 +10,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="Usuario")
 public class Usuario {
 
-    public Usuario(String dni, String nombre_usuario, String nombre, String apellidos, String email,
-            String contrasena) {
-                this.dni=dni;
-                this.nombre_usuario=nombre_usuario;
-                this.nombre=nombre;
-                this.apellidos=apellidos;
-                this.email=email;
-                this.contrasena=contrasena;
-    }
+
 
     @Id
     private String dni; //reemplazar id por dni
@@ -45,4 +36,14 @@ public class Usuario {
 
     @Column(unique = true)
     private int telefono;
+    public Usuario(String dni, String nombre_usuario, String nombre, String apellidos, String email,
+    String contrasena, int telefono) {
+        this.dni=dni;
+        this.nombre_usuario=nombre_usuario;
+        this.nombre=nombre;
+        this.apellidos=apellidos;
+        this.email=email;
+        this.contrasena=contrasena;
+        this.telefono=telefono;
+}
 }

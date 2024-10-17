@@ -35,8 +35,11 @@ public class Comprador extends Usuario {
 
     // Constructor con parámetros
     public Comprador(String dni, String nombre_usuario, String nombre, String apellidos, String email,
-            String contrasena) {
-        super(dni, nombre_usuario, nombre, apellidos, email, contrasena);
-        
+            String contrasena, int telefono) {
+        super(dni, nombre_usuario, nombre, apellidos, email, contrasena, telefono);
+        this.direccionesEnvio=null;
+        this.comentarios=null;
+        this.pedidos=null;
+        this.productosFavoritos=null;
     }
 }

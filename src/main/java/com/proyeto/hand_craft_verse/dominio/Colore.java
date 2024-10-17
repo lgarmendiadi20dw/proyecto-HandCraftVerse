@@ -23,11 +23,5 @@ public class Colore {
 
     private String nombre;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(
-        name = "color_producto", 
-        joinColumns = @JoinColumn(name = "color"),  
-        inverseJoinColumns = @JoinColumn(name = "producto") 
-    )
-    private List<Producto> productos ;
+    
 }
