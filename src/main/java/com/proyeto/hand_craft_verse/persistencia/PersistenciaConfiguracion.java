@@ -128,11 +128,9 @@ public class PersistenciaConfiguracion {
                 .addAnnotatedClass(Direccion.class)
 
                 .buildSessionFactory();
-        System.out.println("hola1");
 
         Session session = factory.openSession();
 
-        System.out.println("hola");
         return session;
     }
 }
