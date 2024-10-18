@@ -1,6 +1,8 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.pedidos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
 
 import java.util.Date;
 import java.util.List;

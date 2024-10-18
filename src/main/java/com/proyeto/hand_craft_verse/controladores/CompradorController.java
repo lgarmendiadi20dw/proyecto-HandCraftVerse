@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
-import com.proyeto.hand_craft_verse.dominio.Comprador;
-import com.proyeto.hand_craft_verse.dominio.Usuario;
-
+import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
 import java.util.List;
 
@@ -52,9 +51,10 @@ public class CompradorController {
 
   
 
-    @PutMapping("/update/{dni}")
-    public ResponseEntity<Void> putMethodName(@PathVariable String dni, @RequestBody Comprador entity) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Comprador entity) {
 
+        
         if (aplicacionComprador.actualizar(entity) != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);

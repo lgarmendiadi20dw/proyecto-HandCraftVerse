@@ -1,4 +1,4 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.productos;
 
 import java.util.List;
 import jakarta.persistence.CascadeType;

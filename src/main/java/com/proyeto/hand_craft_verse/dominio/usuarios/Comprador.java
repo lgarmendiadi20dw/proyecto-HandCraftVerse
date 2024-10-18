@@ -1,8 +1,12 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.usuarios;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
+import com.proyeto.hand_craft_verse.dominio.pedidos.Pedido;
+import com.proyeto.hand_craft_verse.dominio.productos.Comentario;
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -37,9 +41,9 @@ public class Comprador extends Usuario {
     public Comprador(String dni, String nombre_usuario, String nombre, String apellidos, String email,
             String contrasena, int telefono) {
         super(dni, nombre_usuario, nombre, apellidos, email, contrasena, telefono);
-        this.direccionesEnvio=null;
-        this.comentarios=null;
-        this.pedidos=null;
-        this.productosFavoritos=null;
+        
+    }
+    public Comprador(String nombre_usuario,String email,String contrasena, int telefono){
+        super( nombre_usuario, email, contrasena, telefono);
     }
 }

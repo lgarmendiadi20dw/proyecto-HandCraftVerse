@@ -1,4 +1,6 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.productos;
+
+import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

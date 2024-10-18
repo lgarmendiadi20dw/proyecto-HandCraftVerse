@@ -1,6 +1,8 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.usuarios;
 
 import java.util.List;
+
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-public class Vendedor extends Usuario{
+public class Vendedor extends Comprador{
 
     
     private int num_ventas;
@@ -34,6 +36,12 @@ public class Vendedor extends Usuario{
     
     public Vendedor(String dni,String nombre_usuario,String nombre,String apellidos,String email,String contrasena, int telefono, String descripcion){
         super( dni, nombre_usuario, nombre, apellidos, email, contrasena, telefono);
+        this.num_ventas=0;
+        this.descripcion=descripcion;
+    }
+
+    public Vendedor(String nombre_usuario,String email,String contrasena, int telefono, String descripcion){
+        super( nombre_usuario, email, contrasena, telefono);
         this.num_ventas=0;
         this.descripcion=descripcion;
     }

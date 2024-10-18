@@ -1,8 +1,11 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.direccion;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.proyeto.hand_craft_verse.dominio.pedidos.Pedido;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

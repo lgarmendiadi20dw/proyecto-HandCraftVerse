@@ -1,8 +1,7 @@
 package com.proyeto.hand_craft_verse.controladores;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
-import com.proyeto.hand_craft_verse.dominio.Comprador;
-import com.proyeto.hand_craft_verse.dominio.Usuario;
-
+import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
 import java.util.List;
 
@@ -24,13 +23,13 @@ public class UsuariosController {
     @Autowired
     IAplicacion<Usuario> aplicacionUsuario;
 
-    @GetMapping("/{dni}")
-    public Usuario viewMyPorfile(@PathVariable String dni) {
-        return aplicacionUsuario.buscar(dni);
+    @GetMapping("/{id}")
+    public Usuario viewMyPorfile(@PathVariable int id) {
+        return aplicacionUsuario.buscar(id);
     }
-    @DeleteMapping("/delete/{dni}")
-    public ResponseEntity<Void> deleteUsuarioBydni(@PathVariable String dni) {
-        if (aplicacionUsuario.eliminar(dni)) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteUsuarioByid(@PathVariable int id) {
+        if (aplicacionUsuario.eliminar(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
         } else {
@@ -39,17 +38,17 @@ public class UsuariosController {
         }
     }
 
-       @PutMapping("/update/{dni}")
-    public ResponseEntity<Void> putMethodName(@PathVariable String dni, @RequestBody Comprador entity) {
+    //    @PutMapping("/update/{id}")
+    // public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Comprador entity) {
 
-        if (aplicacionUsuario.actualizar(entity) != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
-    }
+    //     if (aplicacionUsuario.actualizar(entity) != null) {
+    //         return ResponseEntity.status(HttpStatus.NO_CONTENT)
+    //                 .body(null);
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+    //                 .body(null);
+    //     }
+    // }
 
     @GetMapping("/all")
     public List<Usuario> verCompradoresList() {

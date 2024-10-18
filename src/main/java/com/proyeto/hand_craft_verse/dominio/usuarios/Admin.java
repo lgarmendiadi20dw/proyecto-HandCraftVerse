@@ -1,4 +1,4 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.usuarios;
 
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;

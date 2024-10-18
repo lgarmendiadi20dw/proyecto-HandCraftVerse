@@ -1,7 +1,9 @@
-package com.proyeto.hand_craft_verse.dominio;
+package com.proyeto.hand_craft_verse.dominio.productos;
 
 import java.util.List;
 
+import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
