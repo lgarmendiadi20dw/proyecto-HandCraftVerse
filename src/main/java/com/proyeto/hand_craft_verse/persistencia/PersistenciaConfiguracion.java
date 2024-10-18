@@ -108,6 +108,12 @@ public class PersistenciaConfiguracion {
     }
 
     @Bean
+    public IPersistencia<Categoria> getPersistenciaCategoria() {
+
+        return new Persistencia<Categoria>(getSession(), Categoria.class);
+    }
+
+    @Bean
     public Session getSession() {
         Configuration conf = new Configuration();
         SessionFactory factory = conf.configure()
