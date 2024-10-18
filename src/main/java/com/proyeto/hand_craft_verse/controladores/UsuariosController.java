@@ -1,8 +1,4 @@
 package com.proyeto.hand_craft_verse.controladores;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.Comprador;
 import com.proyeto.hand_craft_verse.dominio.Usuario;
@@ -19,43 +15,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/member/customer")
-// @AllArgsConstructor
-public class CompradorController {
+@RequestMapping("/member")
+public class UsuariosController {
     @Autowired
-    IAplicacion<Comprador> aplicacionComprador;
-    
+    IAplicacion<Usuario> aplicacionUsuario;
 
-    @PostMapping("/create")
-    public ResponseEntity<Comprador> addComprador(@RequestBody Comprador Comprador) {
-
-        try {
-
-            if (aplicacionComprador.guardar(Comprador)) {
-                return ResponseEntity.status(HttpStatus.CREATED)
-                        .body(Comprador);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(null);
-            }
-
-        } catch (Exception e) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    @GetMapping("/{dni}")
+    public Usuario viewMyPorfile(@PathVariable String dni) {
+        return aplicacionUsuario.buscar(dni);
+    }
+    @DeleteMapping("/delete/{dni}")
+    public ResponseEntity<Void> deleteUsuarioBydni(@PathVariable String dni) {
+        if (aplicacionUsuario.eliminar(dni)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
-
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
         }
-
     }
 
-  
-
-    @PutMapping("/update/{dni}")
+       @PutMapping("/update/{dni}")
     public ResponseEntity<Void> putMethodName(@PathVariable String dni, @RequestBody Comprador entity) {
 
-        if (aplicacionComprador.actualizar(entity) != null) {
+        if (aplicacionUsuario.actualizar(entity) != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
         } else {
@@ -65,9 +52,8 @@ public class CompradorController {
     }
 
     @GetMapping("/all")
-    public List<Comprador> verCompradoresList() {
-        System.out.println(aplicacionComprador.obtenerTodos());
-        return aplicacionComprador.obtenerTodos();
+    public List<Usuario> verCompradoresList() {
+        System.out.println(aplicacionUsuario.obtenerTodos());
+        return aplicacionUsuario.obtenerTodos();
     }
-
 }
