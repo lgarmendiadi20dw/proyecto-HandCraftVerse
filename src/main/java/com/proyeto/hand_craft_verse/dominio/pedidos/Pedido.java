@@ -2,7 +2,7 @@ package com.proyeto.hand_craft_verse.dominio.pedidos;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
-import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,8 +31,8 @@ public class Pedido {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "id_comprador")
-    private Comprador comprador;
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 
     private Date fechaCompra;
 

@@ -15,7 +15,7 @@ import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.rrss.RedesSociales;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Admin;
-import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+// import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.persistencia.IPersistencia;
@@ -29,11 +29,11 @@ public class ConfiguracionAplicacion {
     {
         return new Aplicacion<Usuario>(persistenciaUsuario);
     }
-    @Bean
-    public IAplicacion<Comprador> getAplicacionCompradores(IPersistencia<Comprador> persistenciaComprador)
-    {
-        return new Aplicacion<Comprador>(persistenciaComprador);
-    }
+    // @Bean
+    // public IAplicacion<Comprador> getAplicacionCompradores(IPersistencia<Comprador> persistenciaComprador)
+    // {
+    //     return new Aplicacion<Comprador>(persistenciaComprador);
+    // }
     @Bean
     public IAplicacion<Vendedor> getAplicacionVendedores(IPersistencia<Vendedor> persistenciaVendedor)
     {

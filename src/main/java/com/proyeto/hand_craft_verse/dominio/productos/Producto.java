@@ -2,7 +2,7 @@ package com.proyeto.hand_craft_verse.dominio.productos;
 
 import java.util.List;
 
-import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 import jakarta.persistence.CascadeType;
@@ -43,7 +43,7 @@ public class Producto {
     private List<Comentario> comentarios;
 
     @ManyToMany(mappedBy = "productosFavoritos", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Comprador> compradoresFavoritos;
+    private List<Usuario> usuariosFavoritos;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(

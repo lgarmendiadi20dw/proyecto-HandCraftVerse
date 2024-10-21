@@ -1,6 +1,6 @@
 package com.proyeto.hand_craft_verse.dominio.productos;
 
-import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,8 +26,8 @@ public class Comentario {
     private Producto producto;
 
     @ManyToOne  
-    @JoinColumn(name = "comprador", nullable = false)
-    private Comprador comprador;
+    @JoinColumn(name = "usuario", nullable = false)
+    private Usuario usuario;
 
     private String texto;
 

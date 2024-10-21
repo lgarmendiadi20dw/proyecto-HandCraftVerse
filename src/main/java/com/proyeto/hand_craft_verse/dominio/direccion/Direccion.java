@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyeto.hand_craft_verse.dominio.pedidos.Pedido;
-import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -29,9 +29,9 @@ public class Direccion {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "comprador_id") // Cambiar a "comprador_id" para hacer más claro
+    @JoinColumn(name = "usuario_id") 
     @JsonBackReference
-    private Comprador cuentaComprador;
+    private Usuario cuentaUsuario;
 
     private String pais;
     private String provincia;

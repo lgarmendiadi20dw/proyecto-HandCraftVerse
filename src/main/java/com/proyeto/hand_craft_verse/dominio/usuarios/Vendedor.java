@@ -4,12 +4,8 @@ import java.util.List;
 
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-public class Vendedor extends Comprador{
+public class Vendedor extends Usuario{
 
     
     private int num_ventas;
