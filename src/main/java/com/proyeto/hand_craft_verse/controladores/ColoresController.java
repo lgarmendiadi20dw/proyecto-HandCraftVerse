@@ -2,7 +2,10 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
+import com.proyeto.hand_craft_verse.dto.ColoreDTO;
+import com.proyeto.hand_craft_verse.dto.DtoConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +70,20 @@ public class ColoresController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Colore>> verColoresList() {
-        List<Colore> colores = aplicacionColore.obtenerTodos();
-        return ResponseEntity.ok(colores);
+    public List<ColoreDTO> verColoresList() {
+        List<ColoreDTO> respuesta = new ArrayList<>(); // Inicializa la lista
+        List<Colore> colores = aplicacionColore.obtenerTodos(); // Supongamos que este es el método para obtener todos
+                                                                // los colores
+
+        try {
+            for (Colore colore : colores) {
+                respuesta.add(DtoConverter.fromColore(colore)); // Convertir cada Colore a ColoreDTO
+            }
+        } catch (Exception e) {
+            // Manejo de la excepción (puedes registrar el error)
+            e.printStackTrace(); // O puedes usar un logger
+        }
+
+        return respuesta;
     }
 }

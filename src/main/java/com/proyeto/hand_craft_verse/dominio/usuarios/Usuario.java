@@ -32,7 +32,7 @@ public class Usuario {
     @GeneratedValue
     private int id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String dni;
 
     @Column(unique = true, nullable = false)

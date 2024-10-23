@@ -3,6 +3,7 @@ package com.proyeto.hand_craft_verse.dominio.usuarios;
 import java.util.List;
 
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
+import com.proyeto.hand_craft_verse.dominio.rrss.RedesSociales;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -21,8 +22,8 @@ public class Vendedor extends Usuario{
     
     private String descripcion;
 
-    // @OneToMany(mappedBy = "vendedor")
-    // private List<RedesSociales> redes_sociales;
+    @OneToMany(mappedBy = "vendedor")
+    private List<RedesSociales> redes_sociales;
 
     @OneToMany(mappedBy = "vendedor")
     private List<Producto> productos;

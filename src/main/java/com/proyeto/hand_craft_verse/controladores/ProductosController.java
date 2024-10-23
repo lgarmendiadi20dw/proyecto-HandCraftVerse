@@ -2,7 +2,7 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
-import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 import java.util.List;
 
@@ -18,10 +18,13 @@ public class ProductosController {
     @Autowired
     IAplicacion<Producto> aplicacionProducto;
 
+    @Autowired
+    IAplicacion<Vendedor> aplicacionVendedor;
+
     @GetMapping("/{id}")
     public Producto viewProduct(@PathVariable int id) {
         return aplicacionProducto.buscar(id);
-        
+
     }
 
     @DeleteMapping("/delete/{id}")
@@ -35,6 +38,7 @@ public class ProductosController {
 
     @PostMapping("/create")
     public ResponseEntity<Producto> addProduct(@RequestBody Producto producto) {
+
         try {
             if (aplicacionProducto.guardar(producto)) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(producto);

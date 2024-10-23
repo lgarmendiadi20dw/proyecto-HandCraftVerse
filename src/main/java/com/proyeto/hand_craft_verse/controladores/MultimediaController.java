@@ -68,8 +68,8 @@ public class MultimediaController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Multimedia>> verMultimediaList() {
-        List<Multimedia> multimediaList = aplicacionMultimedia.obtenerTodos();
-        return ResponseEntity.ok(multimediaList);
+    public List<Multimedia> verMultimediaList() {
+        return aplicacionMultimedia.obtenerTodos();
+
     }
 }

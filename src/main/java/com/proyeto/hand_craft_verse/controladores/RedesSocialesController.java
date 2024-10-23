@@ -19,7 +19,8 @@ public class RedesSocialesController {
     IAplicacion<RedesSociales> aplicacionRedesSociales;
 
     @GetMapping("/{nombre_usuario}/{plataforma}")
-    public ResponseEntity<RedesSociales> viewRedesSociales(@PathVariable String nombre_usuario, @PathVariable String plataforma) {
+    public ResponseEntity<RedesSociales> viewRedesSociales(@PathVariable String nombre_usuario,
+            @PathVariable String plataforma) {
         RedesSocialesId rrssId = new RedesSocialesId(nombre_usuario, plataforma);
         RedesSociales rrss = aplicacionRedesSociales.buscar(rrssId);
         if (rrss != null) {
@@ -30,7 +31,8 @@ public class RedesSocialesController {
     }
 
     @DeleteMapping("/delete/{nombre_usuario}/{plataforma}")
-    public ResponseEntity<Void> deleteRedesSociales(@PathVariable String nombre_usuario, @PathVariable String plataforma) {
+    public ResponseEntity<Void> deleteRedesSociales(@PathVariable String nombre_usuario,
+            @PathVariable String plataforma) {
         RedesSocialesId rrssId = new RedesSocialesId(nombre_usuario, plataforma);
         if (aplicacionRedesSociales.eliminar(rrssId)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -53,7 +55,8 @@ public class RedesSocialesController {
     }
 
     @PutMapping("/update/{nombre_usuario}/{plataforma}")
-    public ResponseEntity<Void> updateRedesSociales(@PathVariable String nombre_usuario, @PathVariable String plataforma, @RequestBody RedesSociales redesSociales) {
+    public ResponseEntity<Void> updateRedesSociales(@PathVariable String nombre_usuario,
+            @PathVariable String plataforma, @RequestBody RedesSociales redesSociales) {
         RedesSocialesId rrssId = new RedesSocialesId(nombre_usuario, plataforma);
         RedesSociales existingRrss = aplicacionRedesSociales.buscar(rrssId);
         if (existingRrss != null) {
@@ -71,8 +74,8 @@ public class RedesSocialesController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<RedesSociales>> verRedesSocialesList() {
-        List<RedesSociales> redesSociales = aplicacionRedesSociales.obtenerTodos();
-        return ResponseEntity.ok(redesSociales);
+    public List<RedesSociales> verRedesSocialesList() {
+        return aplicacionRedesSociales.obtenerTodos();
+
     }
 }

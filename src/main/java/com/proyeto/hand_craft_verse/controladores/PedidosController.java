@@ -88,8 +88,8 @@ public class PedidosController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Pedido>> verPedidosList() {
-        List<Pedido> pedidos = aplicacionPedido.obtenerTodos();
-        return ResponseEntity.ok(pedidos);
+    public List<Pedido> verPedidosList() {
+        return aplicacionPedido.obtenerTodos();
+
     }
 }

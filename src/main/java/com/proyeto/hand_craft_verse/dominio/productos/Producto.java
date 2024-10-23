@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name="Producto")
+@Table(name = "Producto")
 public class Producto {
     @Id
     @GeneratedValue
@@ -42,26 +42,43 @@ public class Producto {
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios;
 
-    @ManyToMany(mappedBy = "productosFavoritos", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Usuario> usuariosFavoritos;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(
-        name = "color_producto", 
-        joinColumns = @JoinColumn(name = "producto"),  
-        inverseJoinColumns = @JoinColumn(name = "color") 
-    )
-    private List<Colore> colores ;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @JoinTable(name = "color_producto", joinColumns = @JoinColumn(name = "producto"), inverseJoinColumns = @JoinColumn(name = "color"))
+    private List<Colore> colores;
 
-    @OneToMany
-    (mappedBy="producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Multimedia> multimedias;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(
-        name = "producto_categoria",  // Nombre de la tabla intermedia
-        joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
-        inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @JoinTable(name = "producto_categoria", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
+            inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
     )
     private List<Categoria> categorias;
+
+    public Producto(Vendedor vendedor, String nombre, float precio, int stock, String descripcion, List<Colore> colores,
+            List<Multimedia> multimedias, List<Categoria> categorias) {
+        this.vendedor = vendedor;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+        this.descripcion = descripcion;
+        this.colores = colores;
+        this.multimedias = multimedias;
+        this.categorias = categorias;
+    }
+
+    public Producto(Vendedor vendedor, String nombre, float precio, int stock, String descripcion, List<Colore> colores,
+            List<Categoria> categorias) {
+        this.vendedor = vendedor;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+        this.colores = colores;
+        this.categorias = categorias;
+    }
+
 }

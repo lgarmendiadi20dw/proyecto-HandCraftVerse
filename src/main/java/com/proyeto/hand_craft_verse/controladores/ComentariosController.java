@@ -21,7 +21,7 @@ public class ComentariosController {
     @GetMapping("/{id}")
     public Comentario viewComentario(@PathVariable int id) {
         return aplicacionComentario.buscar(id);
-        
+
     }
 
     @DeleteMapping("/delete/{id}")
@@ -52,7 +52,6 @@ public class ComentariosController {
         if (existingComentario != null) {
             existingComentario.setTexto(comentario.getTexto());
             existingComentario.setValoracion(comentario.getValoracion());
-            
 
             if (aplicacionComentario.actualizar(existingComentario) != null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

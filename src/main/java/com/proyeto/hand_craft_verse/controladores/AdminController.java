@@ -1,6 +1,6 @@
 package com.proyeto.hand_craft_verse.controladores;
-import java.util.List
-;
+
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +47,6 @@ public class AdminController {
         }
 
     }
-
-  
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Admin entity) {

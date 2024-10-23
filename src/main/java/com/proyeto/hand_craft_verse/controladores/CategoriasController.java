@@ -2,7 +2,10 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
+import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
+import com.proyeto.hand_craft_verse.dto.DtoConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,7 @@ public class CategoriasController {
     @GetMapping("/{nombre}")
     public Categoria viewCategoria(@PathVariable String nombre) {
         return aplicacionCategoria.buscar(nombre);
-        
+
     }
 
     @DeleteMapping("/delete/{nombre}")
@@ -63,8 +66,19 @@ public class CategoriasController {
     }
 
     @GetMapping("/all")
-    public List<Categoria> verCategoriasList() {
-        return aplicacionCategoria.obtenerTodos();
-        
+    public List<CategoriaDTO> verCategoriasList() {
+        List<CategoriaDTO> respuesta = new ArrayList<>();
+        List<Categoria> categorias = aplicacionCategoria.obtenerTodos();
+
+        try {
+            for (Categoria categoria : categorias) {
+                respuesta.add(DtoConverter.fromCategoria(categoria));
+            }
+
+        } catch (Exception e) {
+
+        }
+
+        return respuesta;
     }
 }

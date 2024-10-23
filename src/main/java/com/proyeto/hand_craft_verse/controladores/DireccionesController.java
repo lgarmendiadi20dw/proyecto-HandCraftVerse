@@ -72,8 +72,7 @@ public class DireccionesController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Direccion>> verDireccionesList() {
-        List<Direccion> direcciones = aplicacionDireccion.obtenerTodos();
-        return ResponseEntity.ok(direcciones);
+    public List<Direccion> verDireccionesList() {
+        return aplicacionDireccion.obtenerTodos();
     }
 }

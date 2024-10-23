@@ -1,4 +1,5 @@
 package com.proyeto.hand_craft_verse.controladores;
+
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/member")
 public class UsuariosController {
@@ -28,7 +28,7 @@ public class UsuariosController {
     public Usuario viewMyPorfile(@PathVariable int id) {
         return aplicacionUsuario.buscar(id);
     }
-    
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUsuarioByid(@PathVariable int id) {
         if (aplicacionUsuario.eliminar(id)) {
@@ -62,12 +62,10 @@ public class UsuariosController {
 
     }
 
-  
-
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Usuario entity) {
 
-        Usuario Usuario= aplicacionUsuario.buscar(id);
+        Usuario Usuario = aplicacionUsuario.buscar(id);
         Usuario.setNombre(entity.getNombre());
         Usuario.setApellidos(entity.getApellidos());
         Usuario.setContrasena(entity.getContrasena());
@@ -75,7 +73,6 @@ public class UsuariosController {
         Usuario.setTelefono(entity.getTelefono());
         Usuario.setEmail(entity.getEmail());
 
-        
         if (aplicacionUsuario.actualizar(entity) != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
@@ -84,8 +81,6 @@ public class UsuariosController {
                     .body(null);
         }
     }
-
-    
 
     @GetMapping("/all")
     public List<Usuario> verUsuarioesList() {
