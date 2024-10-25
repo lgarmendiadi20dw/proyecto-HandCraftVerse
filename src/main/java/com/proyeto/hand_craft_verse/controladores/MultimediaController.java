@@ -17,6 +17,10 @@ public class MultimediaController {
     @Autowired
     IAplicacion<Multimedia> aplicacionMultimedia;
 
+
+//guardar imagenes
+// direcion+nombre basado en idproducto+idimagen
+
     @GetMapping("/{url}")
     public ResponseEntity<Multimedia> viewMultimedia(@PathVariable String url) {
         Multimedia multimedia = aplicacionMultimedia.buscar(url);

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -64,6 +63,12 @@ public class Persistencia<T> implements IPersistencia<T> {
     }
 
     @Override
+    public List<Object[]> obtenerDatosColumna(String nombreColumna) {
+        String hql = "select id, " + nombreColumna + " from " + classType.getName();
+    return session.createQuery(hql, Object[].class).list();
+    }
+
+    @Override
     public List<T> obtenerPorNombre(String nombre) {
         return session.createQuery("from " + classType.getName() + " where nombre = :nombre", classType)
                 .setParameter("nombre", nombre).list();
@@ -77,4 +82,3 @@ public class Persistencia<T> implements IPersistencia<T> {
     }
 
 }
-

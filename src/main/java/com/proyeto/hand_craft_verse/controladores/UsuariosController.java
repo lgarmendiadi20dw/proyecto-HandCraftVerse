@@ -4,7 +4,10 @@ import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -83,8 +86,16 @@ public class UsuariosController {
     }
 
     @GetMapping("/all")
-    public List<Usuario> verUsuarioesList() {
-        System.out.println(aplicacionUsuario.obtenerTodos());
+    public List<Map<String, Object>> verUsuariosList() {
+        return aplicacionUsuario.obtenerDatosColumna("nombre_usuario")
+                .stream()
+                .map(fila -> Map.of("id", fila[0], "nombre_usuario", fila[1]))
+                .toList();
+    }
+    @GetMapping("/allData")
+    public List<Usuario> verUsuariosListAll() {
         return aplicacionUsuario.obtenerTodos();
     }
+    
+
 }

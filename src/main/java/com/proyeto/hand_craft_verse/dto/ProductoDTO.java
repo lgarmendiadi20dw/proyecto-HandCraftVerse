@@ -7,20 +7,19 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class ProductoDTO {
-    private Vendedor vendedor; 
+    private int vendedorId; // Cambiado de Vendedor a vendedorId
     private String nombre;
     private float precio;
     private int stock;
-    private String descripcion;
-    private List<String> colores; // O puedes usar una lista de ColorDTO
-    private List<String> multimedia; // O puedes usar una lista de MultimediaDTO
-    private List<String> categorias; // O puedes usar una lista de CategoriaDTO
     
+    private String descripcion;
+    private List<ColoreDTO> colores; // O puedes usar una lista de ColorDTO
+    private List<MultimediaDTO> multimedia; // O puedes usar una lista de MultimediaDTO
+    private List<CategoriaDTO> categorias; // O puedes usar una lista de CategoriaDTO
 }

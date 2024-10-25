@@ -6,12 +6,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Multimedia")
 public class Multimedia {
@@ -26,4 +28,10 @@ public class Multimedia {
     @ManyToOne
     @JoinColumn(name="producto")
     private Producto  producto;
+
+    public Multimedia(String url, String alt, String nombreArchivo){
+        this.url=url;
+        this.alt=alt;
+        this.nombreArchivo=nombreArchivo;
+    }
 }

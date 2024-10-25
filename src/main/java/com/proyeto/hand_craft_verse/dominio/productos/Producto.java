@@ -6,11 +6,13 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -37,6 +39,7 @@ public class Producto {
 
     private int stock;
 
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)

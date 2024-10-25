@@ -9,6 +9,7 @@ public interface IAplicacion<T> {
     public T buscar(Object id);
 
     public T buscarPorNombre(String name);
+    public List<Object[]> obtenerDatosColumna(String nombreColumna);
 
     public boolean eliminar(Object id);
 

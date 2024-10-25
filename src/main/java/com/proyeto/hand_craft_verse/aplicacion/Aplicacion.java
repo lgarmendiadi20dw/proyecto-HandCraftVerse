@@ -1,5 +1,7 @@
 package com.proyeto.hand_craft_verse.aplicacion;
 
+import java.util.List;
+
 import com.proyeto.hand_craft_verse.persistencia.IPersistencia;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +29,7 @@ public class Aplicacion<T> implements IAplicacion<T> {
         
         return persistencia.obtener(id);
     }
+    
 
     @Override
     public T buscarPorNombre(String name) {
@@ -60,6 +63,12 @@ public class Aplicacion<T> implements IAplicacion<T> {
             return t;
         }
         return null;
+    }
+
+
+    @Override
+    public List<Object[]> obtenerDatosColumna(String nombreColumna) {
+        return persistencia.obtenerDatosColumna(nombreColumna);
     }
     
 }
