@@ -2,10 +2,7 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
-import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -87,7 +84,7 @@ public class UsuariosController {
 
     @GetMapping("/all")
     public List<Map<String, Object>> verUsuariosList() {
-        return aplicacionUsuario.obtenerDatosColumna("nombre_usuario")
+        return aplicacionUsuario.obtenerDatosColumnas("id","nombre_usuario")
                 .stream()
                 .map(fila -> Map.of("id", fila[0], "nombre_usuario", fila[1]))
                 .toList();

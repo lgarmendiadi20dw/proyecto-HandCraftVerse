@@ -67,8 +67,8 @@ public class Aplicacion<T> implements IAplicacion<T> {
 
 
     @Override
-    public List<Object[]> obtenerDatosColumna(String nombreColumna) {
-        return persistencia.obtenerDatosColumna(nombreColumna);
+    public List<Object[]> obtenerDatosColumnas(String nombreColumna1, String nombreColumna2) {
+        return persistencia.obtenerDatosColumnas( nombreColumna1,  nombreColumna2);
     }
     
 }

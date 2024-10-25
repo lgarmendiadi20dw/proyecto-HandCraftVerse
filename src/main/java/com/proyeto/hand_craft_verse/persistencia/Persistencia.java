@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -56,17 +57,18 @@ public class Persistencia<T> implements IPersistencia<T> {
             return false;
         }
     }
-
     @Override
     public List<T> obtenerTodos() {
         return session.createQuery("from " + classType.getName(), classType).list();
     }
 
     @Override
-    public List<Object[]> obtenerDatosColumna(String nombreColumna) {
-        String hql = "select id, " + nombreColumna + " from " + classType.getName();
-    return session.createQuery(hql, Object[].class).list();
+    public List<Object[]> obtenerDatosColumnas(String nombreColumna1, String nombreColumna2) {
+        // Asegúrate de que los nombres de columna están correctamente validados y escapados
+        String hql = "select " + nombreColumna1 + ", " + nombreColumna2 + " from " + classType.getName();
+        return session.createQuery(hql, Object[].class).list();
     }
+    
 
     @Override
     public List<T> obtenerPorNombre(String nombre) {

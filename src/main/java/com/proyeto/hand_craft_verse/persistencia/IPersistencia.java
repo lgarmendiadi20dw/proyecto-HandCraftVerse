@@ -12,7 +12,7 @@ public interface IPersistencia<T> {
     public boolean eliminar(T t);
 
     public List<T> obtenerTodos();
-    public List<Object[]> obtenerDatosColumna(String nombreColumna);
+    public List<Object[]> obtenerDatosColumnas(String nombreColumna1, String nombreColumna2);
 
     public List<T> obtenerPorNombre(String nombre);
 

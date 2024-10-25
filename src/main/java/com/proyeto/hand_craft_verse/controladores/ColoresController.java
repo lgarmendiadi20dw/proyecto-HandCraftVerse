@@ -70,20 +70,7 @@ public class ColoresController {
     }
 
     @GetMapping("/all")
-    public List<ColoreDTO> verColoresList() {
-        List<ColoreDTO> respuesta = new ArrayList<>(); // Inicializa la lista
-        List<Colore> colores = aplicacionColore.obtenerTodos(); // Supongamos que este es el método para obtener todos
-                                                                // los colores
+    public List<Colore> verColoresList() { 
+        return  aplicacionColore.obtenerTodos(); 
 
-        try {
-            for (Colore colore : colores) {
-                respuesta.add(DtoConverter.fromColore(colore)); // Convertir cada Colore a ColoreDTO
-            }
-        } catch (Exception e) {
-            // Manejo de la excepción (puedes registrar el error)
-            e.printStackTrace(); // O puedes usar un logger
-        }
-
-        return respuesta;
-    }
 }
