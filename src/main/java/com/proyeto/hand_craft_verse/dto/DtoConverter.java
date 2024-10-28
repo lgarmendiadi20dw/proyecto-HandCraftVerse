@@ -8,19 +8,18 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DtoConverter {
 
     public static VendedorDTO fromVendedor(Vendedor vendedor) {
         return VendedorDTO.builder()
                 .dni(vendedor.getDni())
-                .nombreUsuario(vendedor.getNombre_usuario())
+                .nombreUsuario(vendedor.getUsername())
                 .nombre(vendedor.getNombre())
                 .apellidos(vendedor.getApellidos())
                 .email(vendedor.getEmail())
                 .imagen(vendedor.getImagen())
-                .contrasena(vendedor.getContrasena())
+                .contrasena(vendedor.getPassword())
                 .telefono(vendedor.getTelefono())
                 .numVentas(vendedor.getNum_ventas())
                 .descripcion(vendedor.getDescripcion())

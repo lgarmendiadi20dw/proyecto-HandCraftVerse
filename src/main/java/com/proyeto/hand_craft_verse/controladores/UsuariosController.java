@@ -68,8 +68,8 @@ public class UsuariosController {
         Usuario Usuario = aplicacionUsuario.buscar(id);
         Usuario.setNombre(entity.getNombre());
         Usuario.setApellidos(entity.getApellidos());
-        Usuario.setContrasena(entity.getContrasena());
-        Usuario.setNombre_usuario(entity.getNombre_usuario());
+        Usuario.setPassword(entity.getPassword());
+        Usuario.setUsername(entity.getUsername());
         Usuario.setTelefono(entity.getTelefono());
         Usuario.setEmail(entity.getEmail());
 

@@ -1,6 +1,13 @@
 package com.proyeto.hand_craft_verse.dominio.usuarios;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
@@ -26,17 +33,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Table(name = "Usuario")
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue
     private int id;
 
+    private Set<UserRoles> roles;
+
     @Column(unique = true)
     private String dni;
 
     @Column(unique = true, nullable = false)
-    private String nombre_usuario;
+    private String username;
 
     private String nombre;
 
@@ -44,8 +53,8 @@ public class Usuario {
 
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(name = "contrasena", nullable = false, length = 60)
-    private String contrasena;
+    @Column(name = "password", nullable = false, length = 60)
+    private String password;
 
     private String imagen;
 
@@ -67,22 +76,32 @@ public class Usuario {
     private List<Producto> productosFavoritos;
 
 
-    public Usuario(String dni, String nombre_usuario, String nombre, String apellidos, String email,
-            String contrasena, int telefono) {
+    public Usuario(String dni, String username, String nombre, String apellidos, String email,
+            String password, int telefono) {
         this.dni = dni;
-        this.nombre_usuario = nombre_usuario;
+        this.username = username;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
-        this.contrasena = contrasena;
+        this.password = password;
         this.telefono = telefono;
     }
 
-    public Usuario(String nombre_usuario, String email,
-            String contrasena, int telefono) {
-        this.nombre_usuario = nombre_usuario;
+    public Usuario(String username, String email,
+            String password, int telefono) {
+        this.username = username;
         this.email = email;
-        this.contrasena = contrasena;
+        this.password = password;
         this.telefono = telefono;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+        .map(rol -> new SimpleGrantedAuthority("ROLE_"+rol.toString()))
+        .collect(Collectors.toSet());
+        
+    }
+
+    
 }
