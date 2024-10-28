@@ -2,10 +2,6 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
-import com.proyeto.hand_craft_verse.dto.ColoreDTO;
-import com.proyeto.hand_craft_verse.dto.DtoConverter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +66,8 @@ public class ColoresController {
     }
 
     @GetMapping("/all")
-    public List<Colore> verColoresList() { 
-        return  aplicacionColore.obtenerTodos(); 
+    public List<Colore> verColoresList() {
+        return aplicacionColore.obtenerTodos();
 
+    }
 }
