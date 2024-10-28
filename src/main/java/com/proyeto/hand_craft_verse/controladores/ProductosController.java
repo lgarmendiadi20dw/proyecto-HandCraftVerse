@@ -8,9 +8,9 @@ import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
 import com.proyeto.hand_craft_verse.dto.ColoreDTO;
-import com.proyeto.hand_craft_verse.dto.DtoConverter;
 import com.proyeto.hand_craft_verse.dto.MultimediaDTO;
 import com.proyeto.hand_craft_verse.dto.ProductoDTO;
+import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 
 import java.util.ArrayList;
 import java.util.List;

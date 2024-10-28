@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 public class Admin extends Usuario {
     private int nivel;
 
-    public Admin(String dni, String nombre_usuario, String nombre, String apellidos, String email,
-            String contrasena, int telefono, int nivel) {
-        super(dni, nombre_usuario, nombre, apellidos, email, contrasena, telefono);
+    public Admin(String dni, String username, String nombre, String apellidos, String email,
+            String password, int telefono, int nivel) {
+        super(dni, username, nombre, apellidos, email, password, telefono);
         this.nivel = nivel;
     }
 }

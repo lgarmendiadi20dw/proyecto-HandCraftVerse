@@ -17,6 +17,7 @@ import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.rrss.RedesSociales;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Admin;
+import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 // import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
@@ -29,12 +30,7 @@ public class PersistenciaConfiguracion {
         return new Persistencia<Usuario>(getSession(), Usuario.class);
     }
 
-    // @Bean
-    // public IPersistencia<Comprador> getPersistenciaComprador() {
-
-    //     return new Persistencia<Comprador>(getSession(), Comprador.class);
-    // }
-
+    
     @Bean
     public IPersistencia<Vendedor> getPersistenciaVendedor() {
 
@@ -120,7 +116,7 @@ public class PersistenciaConfiguracion {
                 .addAnnotatedClass(Usuario.class)
                 .addAnnotatedClass(Vendedor.class)
                 .addAnnotatedClass(Admin.class)
-                // .addAnnotatedClass(Comprador.class)
+                .addAnnotatedClass(UserRoles.class)
                 .addAnnotatedClass(TipoDireccion.class)
                 .addAnnotatedClass(EstadoPedido.class)
                 .addAnnotatedClass(Producto.class)

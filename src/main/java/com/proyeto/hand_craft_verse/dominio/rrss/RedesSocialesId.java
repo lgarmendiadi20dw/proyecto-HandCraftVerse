@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class RedesSocialesId {
 
-    private String nombre_usuario;
+    private String username;
 
     private String plataforma;
 }

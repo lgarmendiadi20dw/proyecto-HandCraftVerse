@@ -16,7 +16,7 @@ public class VendedorDTO  {
     private String apellidos;
     private String email;
     private String imagen;
-    private String contrasena;
+    private String password;
     private int telefono;
     private int numVentas;
     private String descripcion;

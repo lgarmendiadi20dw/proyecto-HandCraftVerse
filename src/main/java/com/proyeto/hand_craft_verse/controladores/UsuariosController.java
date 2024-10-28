@@ -1,12 +1,16 @@
 package com.proyeto.hand_craft_verse.controladores;
 
+import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
+import com.proyeto.hand_craft_verse.dto.UserGetDto;
+import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,17 +25,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/member")
 public class UsuariosController {
-    @Autowired
-    IAplicacion<Usuario> aplicacionUsuario;
+    // @Autowired
+    // @Qualifier("getAplicacionUsuarios")
+    // private IAplicacion<Usuario> iaplicacionUsuario;
 
+    @Autowired
+    // @Qualifier("getAplicacionUsuario")
+    private AplicacionUsuario aplicacionUsuario;
+
+    public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
+        UserGetDto toReturn = aplicacionUsuario.guardar(user);
+        if (toReturn != null) {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(toReturn);
+
+        } else {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
+    }
+/*
     @GetMapping("/{id}")
     public Usuario viewMyPorfile(@PathVariable int id) {
-        return aplicacionUsuario.buscar(id);
+        return iaplicacionUsuario.buscar(id);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUsuarioByid(@PathVariable int id) {
-        if (aplicacionUsuario.eliminar(id)) {
+        if (iaplicacionUsuario.eliminar(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
         } else {
@@ -45,7 +67,7 @@ public class UsuariosController {
 
         try {
 
-            if (aplicacionUsuario.guardar(Usuario)) {
+            if (iaplicacionUsuario.guardar(Usuario)) {
                 return ResponseEntity.status(HttpStatus.CREATED)
                         .body(Usuario);
             } else {
@@ -65,7 +87,7 @@ public class UsuariosController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Usuario entity) {
 
-        Usuario Usuario = aplicacionUsuario.buscar(id);
+        Usuario Usuario = iaplicacionUsuario.buscar(id);
         Usuario.setNombre(entity.getNombre());
         Usuario.setApellidos(entity.getApellidos());
         Usuario.setPassword(entity.getPassword());
@@ -73,7 +95,7 @@ public class UsuariosController {
         Usuario.setTelefono(entity.getTelefono());
         Usuario.setEmail(entity.getEmail());
 
-        if (aplicacionUsuario.actualizar(entity) != null) {
+        if (iaplicacionUsuario.actualizar(entity) != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
         } else {
@@ -84,15 +106,15 @@ public class UsuariosController {
 
     @GetMapping("/all")
     public List<Map<String, Object>> verUsuariosList() {
-        return aplicacionUsuario.obtenerDatosColumnas("id","nombre_usuario")
+        return iaplicacionUsuario.obtenerDatosColumnas("id", "username")
                 .stream()
-                .map(fila -> Map.of("id", fila[0], "nombre_usuario", fila[1]))
+                .map(fila -> Map.of("id", fila[0], "username", fila[1]))
                 .toList();
     }
+
     @GetMapping("/allData")
     public List<Usuario> verUsuariosListAll() {
-        return aplicacionUsuario.obtenerTodos();
+        return iaplicacionUsuario.obtenerTodos();
     }
-    
-
+*/
 }

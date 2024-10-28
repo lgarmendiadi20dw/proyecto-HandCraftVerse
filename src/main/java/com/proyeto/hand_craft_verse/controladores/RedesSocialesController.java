@@ -18,10 +18,10 @@ public class RedesSocialesController {
     @Autowired
     IAplicacion<RedesSociales> aplicacionRedesSociales;
 
-    @GetMapping("/{nombre_usuario}/{plataforma}")
-    public ResponseEntity<RedesSociales> viewRedesSociales(@PathVariable String nombre_usuario,
+    @GetMapping("/{username}/{plataforma}")
+    public ResponseEntity<RedesSociales> viewRedesSociales(@PathVariable String username,
             @PathVariable String plataforma) {
-        RedesSocialesId rrssId = new RedesSocialesId(nombre_usuario, plataforma);
+        RedesSocialesId rrssId = new RedesSocialesId(username, plataforma);
         RedesSociales rrss = aplicacionRedesSociales.buscar(rrssId);
         if (rrss != null) {
             return ResponseEntity.ok(rrss);
@@ -30,10 +30,10 @@ public class RedesSocialesController {
         }
     }
 
-    @DeleteMapping("/delete/{nombre_usuario}/{plataforma}")
-    public ResponseEntity<Void> deleteRedesSociales(@PathVariable String nombre_usuario,
+    @DeleteMapping("/delete/{username}/{plataforma}")
+    public ResponseEntity<Void> deleteRedesSociales(@PathVariable String username,
             @PathVariable String plataforma) {
-        RedesSocialesId rrssId = new RedesSocialesId(nombre_usuario, plataforma);
+        RedesSocialesId rrssId = new RedesSocialesId(username, plataforma);
         if (aplicacionRedesSociales.eliminar(rrssId)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } else {
@@ -54,10 +54,10 @@ public class RedesSocialesController {
         }
     }
 
-    @PutMapping("/update/{nombre_usuario}/{plataforma}")
-    public ResponseEntity<Void> updateRedesSociales(@PathVariable String nombre_usuario,
+    @PutMapping("/update/{username}/{plataforma}")
+    public ResponseEntity<Void> updateRedesSociales(@PathVariable String username,
             @PathVariable String plataforma, @RequestBody RedesSociales redesSociales) {
-        RedesSocialesId rrssId = new RedesSocialesId(nombre_usuario, plataforma);
+        RedesSocialesId rrssId = new RedesSocialesId(username, plataforma);
         RedesSociales existingRrss = aplicacionRedesSociales.buscar(rrssId);
         if (existingRrss != null) {
             existingRrss.setVendedor(redesSociales.getVendedor()); // Actualiza el vendedor

@@ -1,10 +1,15 @@
-package com.proyeto.hand_craft_verse.dto;
+package com.proyeto.hand_craft_verse.dto.Converter;
 
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
+import com.proyeto.hand_craft_verse.dto.ColoreDTO;
+import com.proyeto.hand_craft_verse.dto.MultimediaDTO;
+import com.proyeto.hand_craft_verse.dto.ProductoDTO;
+import com.proyeto.hand_craft_verse.dto.VendedorDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +24,7 @@ public class DtoConverter {
                 .apellidos(vendedor.getApellidos())
                 .email(vendedor.getEmail())
                 .imagen(vendedor.getImagen())
-                .contrasena(vendedor.getPassword())
+                .password(vendedor.getPassword())
                 .telefono(vendedor.getTelefono())
                 .numVentas(vendedor.getNum_ventas())
                 .descripcion(vendedor.getDescripcion())
@@ -30,7 +35,7 @@ public class DtoConverter {
         Vendedor vendedor = new Vendedor(
                 vendedorDTO.getNombreUsuario(),
                 vendedorDTO.getEmail(),
-                vendedorDTO.getContrasena(),
+                vendedorDTO.getPassword(),
                 vendedorDTO.getTelefono(),
                 vendedorDTO.getDescripcion());
 
@@ -152,5 +157,7 @@ public class DtoConverter {
 
         return producto;
     }
+
+    
 
 }

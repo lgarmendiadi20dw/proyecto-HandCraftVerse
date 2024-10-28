@@ -17,7 +17,9 @@ import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,12 +28,16 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "Usuario")
 public class Usuario implements UserDetails{
 
@@ -39,6 +45,8 @@ public class Usuario implements UserDetails{
     @GeneratedValue
     private int id;
 
+    @Enumerated
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<UserRoles> roles;
 
     @Column(unique = true)
@@ -53,7 +61,7 @@ public class Usuario implements UserDetails{
 
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(name = "password", nullable = false, length = 60)
+    @Column( nullable = false, length = 60)
     private String password;
 
     private String imagen;

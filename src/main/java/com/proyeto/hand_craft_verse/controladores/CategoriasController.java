@@ -3,7 +3,7 @@ package com.proyeto.hand_craft_verse.controladores;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
-import com.proyeto.hand_craft_verse.dto.DtoConverter;
+import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 
 import java.util.ArrayList;
 import java.util.List;
