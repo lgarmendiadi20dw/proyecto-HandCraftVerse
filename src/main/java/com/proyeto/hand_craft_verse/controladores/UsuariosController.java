@@ -1,7 +1,6 @@
 package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
-import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
@@ -33,6 +32,7 @@ public class UsuariosController {
     // @Qualifier("getAplicacionUsuario")
     private AplicacionUsuario aplicacionUsuario;
 
+    @PostMapping("/registrar")
     public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
         UserGetDto toReturn = aplicacionUsuario.guardar(user);
         if (toReturn != null) {
@@ -45,15 +45,15 @@ public class UsuariosController {
                     .body(null);
         }
     }
-/*
+
     @GetMapping("/{id}")
     public Usuario viewMyPorfile(@PathVariable int id) {
-        return iaplicacionUsuario.buscar(id);
+        return aplicacionUsuario.buscar(id);
     }
-
+/*
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUsuarioByid(@PathVariable int id) {
-        if (iaplicacionUsuario.eliminar(id)) {
+        if (aplicacionUsuario.eliminar(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
         } else {
@@ -67,7 +67,7 @@ public class UsuariosController {
 
         try {
 
-            if (iaplicacionUsuario.guardar(Usuario)) {
+            if (aplicacionUsuario.guardar(Usuario)) {
                 return ResponseEntity.status(HttpStatus.CREATED)
                         .body(Usuario);
             } else {
@@ -87,7 +87,7 @@ public class UsuariosController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Usuario entity) {
 
-        Usuario Usuario = iaplicacionUsuario.buscar(id);
+        Usuario Usuario = aplicacionUsuario.buscar(id);
         Usuario.setNombre(entity.getNombre());
         Usuario.setApellidos(entity.getApellidos());
         Usuario.setPassword(entity.getPassword());
@@ -95,7 +95,7 @@ public class UsuariosController {
         Usuario.setTelefono(entity.getTelefono());
         Usuario.setEmail(entity.getEmail());
 
-        if (iaplicacionUsuario.actualizar(entity) != null) {
+        if (aplicacionUsuario.actualizar(entity) != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(null);
         } else {
@@ -106,7 +106,7 @@ public class UsuariosController {
 
     @GetMapping("/all")
     public List<Map<String, Object>> verUsuariosList() {
-        return iaplicacionUsuario.obtenerDatosColumnas("id", "username")
+        return aplicacionUsuario.obtenerDatosColumnas("id", "username")
                 .stream()
                 .map(fila -> Map.of("id", fila[0], "username", fila[1]))
                 .toList();
@@ -114,7 +114,7 @@ public class UsuariosController {
 
     @GetMapping("/allData")
     public List<Usuario> verUsuariosListAll() {
-        return iaplicacionUsuario.obtenerTodos();
+        return aplicacionUsuario.obtenerTodos();
     }
 */
 }

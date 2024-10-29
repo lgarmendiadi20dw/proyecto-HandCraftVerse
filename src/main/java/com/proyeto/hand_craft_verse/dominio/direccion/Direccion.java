@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Direccion") 
 public class Direccion {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

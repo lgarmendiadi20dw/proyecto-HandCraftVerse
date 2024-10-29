@@ -16,36 +16,36 @@ import java.util.List;
 
 public class DtoConverter {
 
-    public static VendedorDTO fromVendedor(Vendedor vendedor) {
-        return VendedorDTO.builder()
-                .dni(vendedor.getDni())
-                .nombreUsuario(vendedor.getUsername())
-                .nombre(vendedor.getNombre())
-                .apellidos(vendedor.getApellidos())
-                .email(vendedor.getEmail())
-                .imagen(vendedor.getImagen())
-                .password(vendedor.getPassword())
-                .telefono(vendedor.getTelefono())
-                .numVentas(vendedor.getNum_ventas())
-                .descripcion(vendedor.getDescripcion())
-                .build();
-    }
+    // public static VendedorDTO fromVendedor(Vendedor vendedor) {
+    //     return VendedorDTO.builder()
+    //             .dni(vendedor.getDni())
+    //             .nombreUsuario(vendedor.getUsername())
+    //             .nombre(vendedor.getNombre())
+    //             .apellidos(vendedor.getApellidos())
+    //             .email(vendedor.getEmail())
+    //             .imagen(vendedor.getImagen())
+    //             .password(vendedor.getPassword())
+    //             .telefono(vendedor.getTelefono())
+    //             .numVentas(vendedor.getNum_ventas())
+    //             .descripcion(vendedor.getDescripcion())
+    //             .build();
+    // }
 
-    public static Vendedor fromVendedorDTO(VendedorDTO vendedorDTO) {
-        Vendedor vendedor = new Vendedor(
-                vendedorDTO.getNombreUsuario(),
-                vendedorDTO.getEmail(),
-                vendedorDTO.getPassword(),
-                vendedorDTO.getTelefono(),
-                vendedorDTO.getDescripcion());
+    // public static Vendedor fromVendedorDTO(VendedorDTO vendedorDTO) {
+    //     Vendedor vendedor = new Vendedor(
+    //             vendedorDTO.getNombreUsuario(),
+    //             vendedorDTO.getEmail(),
+    //             vendedorDTO.getPassword(),
+    //             vendedorDTO.getTelefono(),
+    //             vendedorDTO.getDescripcion());
 
-        vendedor.setNum_ventas(vendedorDTO.getNumVentas());
-        vendedor.setNombre(vendedorDTO.getNombre());
-        vendedor.setApellidos(vendedorDTO.getApellidos());
-        vendedor.setImagen(vendedorDTO.getImagen());
+    //     vendedor.setNum_ventas(vendedorDTO.getNumVentas());
+    //     vendedor.setNombre(vendedorDTO.getNombre());
+    //     vendedor.setApellidos(vendedorDTO.getApellidos());
+    //     vendedor.setImagen(vendedorDTO.getImagen());
 
-        return vendedor;
-    }
+    //     return vendedor;
+    // }
 
     public static ColoreDTO fromColore(Colore colore) {
         return ColoreDTO.builder()

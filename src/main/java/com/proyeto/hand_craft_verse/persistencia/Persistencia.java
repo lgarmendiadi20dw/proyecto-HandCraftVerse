@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

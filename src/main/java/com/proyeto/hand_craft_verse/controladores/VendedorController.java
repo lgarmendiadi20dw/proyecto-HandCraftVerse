@@ -1,6 +1,8 @@
 package com.proyeto.hand_craft_verse.controladores;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,8 +63,15 @@ public class VendedorController {
     }
 
     @GetMapping("/all")
-    public List<Vendedor> verVendedoresList() {
-        System.out.println(aplicacionVendedor.obtenerTodos());
+    public List<Map<String, Object>> verVendedoresList() {
+        return aplicacionVendedor.obtenerDatosColumnas("id", "username")
+                .stream()
+                .map(fila -> Map.of("id", fila[0], "username", fila[1]))
+                .toList();
+    }
+
+    @GetMapping("/allData")
+    public List<Vendedor> verVendedoresListAll() {
         return aplicacionVendedor.obtenerTodos();
     }
 }

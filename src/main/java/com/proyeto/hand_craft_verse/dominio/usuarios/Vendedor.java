@@ -31,17 +31,17 @@ public class Vendedor extends Usuario{
     
 
     
-    public Vendedor(String dni,String username,String nombre,String apellidos,String email,String password, int telefono, String descripcion){
-        super( dni, username, nombre, apellidos, email, password, telefono);
-        this.num_ventas=0;
-        this.descripcion=descripcion;
-    }
+    // public Vendedor(String dni,String username,String nombre,String apellidos,String email,String password, int telefono, String descripcion){
+    //     super( dni, username, nombre, apellidos, email, password, telefono);
+    //     this.num_ventas=0;
+    //     this.descripcion=descripcion;
+    // }
 
-    public Vendedor(String username,String email,String password, int telefono, String descripcion){
-        super( username, email, password, telefono);
-        this.num_ventas=0;
-        this.descripcion=descripcion;
-    }
+    // public Vendedor(String username,String email,String password, int telefono, String descripcion){
+    //     super( username, email, password, telefono);
+    //     this.num_ventas=0;
+    //     this.descripcion=descripcion;
+    // }
 
     
 }
