@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.direccion.TipoDireccion;
@@ -21,9 +23,12 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 // import com.proyeto.hand_craft_verse.dominio.usuarios.Comprador;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.proyeto.hand_craft_verse.security.CustomUserDetailService;
 
 @org.springframework.context.annotation.Configuration
 public class PersistenciaConfiguracion {
+
+
     @Bean
     public IPersistencia<Usuario> getPersistenciaUsuario() {
 

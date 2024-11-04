@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
+
 import lombok.AllArgsConstructor;
 
 @Configuration
@@ -21,18 +23,23 @@ public class SecurityConf {
     private PasswordEncoder passwordEncoder;
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-
-        UserDetails usuario1 = User.builder().username("legadilo2").password(passwordEncoder.encode("1234"))
-                .roles("USER").build(),
-                usuario2 = User.builder().username("legadilo3").password(passwordEncoder.encode("1234")).roles("ADMIN")
-                        .build();
-
-        manager.createUser(usuario1);
-        manager.createUser(usuario2);
-        return manager;
+    public UserDetailsService userDetailsService(AplicacionUsuario persistenciaUsuario) {
+        return new CustomUserDetailService(persistenciaUsuario);
     }
+
+    // @Bean
+    // public UserDetailsService userDetailsService() {
+    //     InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+
+    //     UserDetails usuario1 = User.builder().username("legadilo2").password(passwordEncoder.encode("1234"))
+    //             .roles("USER").build(),
+    //             usuario2 = User.builder().username("legadilo3").password(passwordEncoder.encode("1234")).roles("ADMIN")
+    //                     .build();
+
+    //     manager.createUser(usuario1);
+    //     manager.createUser(usuario2);
+    //     return manager;
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
