@@ -1,4 +1,4 @@
-package com.proyeto.hand_craft_verse.controladores;
+package com.proyeto.hand_craft_verse.controladores.usuarios;
 
 import java.util.List;
 import java.util.Map;
@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.proyeto.hand_craft_verse.dto.UserGetDto;
+import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 
 @RestController
 @RequestMapping("/member/seller")
@@ -23,9 +26,26 @@ public class VendedorController {
     @Autowired
     IAplicacion<Vendedor> aplicacionVendedor;
 
+    @Autowired
+    private AplicacionUsuario aplicacionUsuario;
+
     @GetMapping("/{id}")
     public Vendedor viewMyPorfile(@PathVariable int id) {
         return aplicacionVendedor.buscar(id);
+    }
+
+    @PostMapping("/registrar")
+    public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
+        UserGetDto toReturn = aplicacionUsuario.guardarVendedor(user);
+        if (toReturn != null) {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(toReturn);
+
+        } else {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }
     }
 
     @PostMapping("/create")

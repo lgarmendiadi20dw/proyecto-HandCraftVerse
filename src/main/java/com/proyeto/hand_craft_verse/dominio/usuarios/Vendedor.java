@@ -9,12 +9,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 
 
 @Data
 @NoArgsConstructor
 @Entity
+@SuperBuilder
 public class Vendedor extends Usuario{
 
     

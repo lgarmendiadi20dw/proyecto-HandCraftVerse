@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.proyeto.hand_craft_verse.dominio.usuarios.Admin;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
@@ -57,6 +58,31 @@ public class AplicacionUsuario extends Aplicacion<Usuario> {
                     usuario.getEmail().compareTo(usuario.getEmailConfirm()) == 0) {
 
                 usuarioADevolver = userDtoConverter.toAdminUser(usuario);
+
+                if (persistencia.guardar(usuarioADevolver)) {
+                    return userDtoConverter.toUserGetDto(usuarioADevolver);
+                } else {
+
+                    return null;
+
+                }
+
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public UserGetDto guardarVendedor(UserRegisterDto usuario) {
+        Vendedor usuarioADevolver = null;
+
+        try {
+            if ((usuario.getPassword().compareTo(usuario.getPasswordConfirm()) == 0) &&
+                    usuario.getEmail().compareTo(usuario.getEmailConfirm()) == 0) {
+
+                usuarioADevolver = userDtoConverter.toVendedorUser(usuario);
 
                 if (persistencia.guardar(usuarioADevolver)) {
                     return userDtoConverter.toUserGetDto(usuarioADevolver);

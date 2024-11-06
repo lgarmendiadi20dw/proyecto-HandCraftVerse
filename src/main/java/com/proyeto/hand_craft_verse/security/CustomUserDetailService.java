@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
-import com.proyeto.hand_craft_verse.persistencia.IPersistencia;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

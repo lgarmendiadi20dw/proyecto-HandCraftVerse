@@ -1,4 +1,4 @@
-package com.proyeto.hand_craft_verse.controladores;
+package com.proyeto.hand_craft_verse.controladores.usuarios;
 
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
@@ -7,6 +7,7 @@ import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 
 import lombok.AllArgsConstructor;
 
+import java.security.Security;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,12 +62,19 @@ public class UsuariosController {
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    public String getMethodName(){
-        
-        return "Hola Mundo";
+    public String getMethodName(@AuthenticationPrincipal Usuario usuario) {
+        String toReturn= usuario.getUsername() + " con email: " + usuario.getEmail();
+        return toReturn;
     }
 
-/*
+    @GetMapping("/me2")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public String getMethodName2() {
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return "hola " + usuario.getUsername();
+    }
+
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUsuarioByid(@PathVariable int id) {
         if (aplicacionUsuario.eliminar(id)) {
@@ -130,5 +140,5 @@ public class UsuariosController {
     public List<Usuario> verUsuariosListAll() {
         return aplicacionUsuario.obtenerTodos();
     }
-*/
+
 }

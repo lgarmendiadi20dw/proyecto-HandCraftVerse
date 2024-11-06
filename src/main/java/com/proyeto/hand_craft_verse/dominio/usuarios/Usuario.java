@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
+import com.proyeto.hand_craft_verse.dominio.infoBancaria.InfoBancaria;
 import com.proyeto.hand_craft_verse.dominio.pedidos.Pedido;
 import com.proyeto.hand_craft_verse.dominio.productos.Comentario;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
@@ -79,6 +80,14 @@ public class Usuario implements UserDetails {
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "producto_id"))
     private List<Producto> productosFavoritos;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "usuario_info_bancaria",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "info_bancaria_id")
+    )
+    private List<InfoBancaria> infoBancariaList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

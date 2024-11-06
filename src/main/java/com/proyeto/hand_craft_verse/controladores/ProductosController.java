@@ -1,14 +1,12 @@
 package com.proyeto.hand_craft_verse.controladores;
 
+import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
-import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
-import com.proyeto.hand_craft_verse.dto.ColoreDTO;
-import com.proyeto.hand_craft_verse.dto.MultimediaDTO;
 import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 
@@ -31,6 +29,9 @@ public class ProductosController {
     IAplicacion<Vendedor> aplicacionVendedor;
 
     @Autowired
+    AplicacionUsuario aplicacionUsuario;
+
+    @Autowired
     IAplicacion<Multimedia> aplicacionMultimedia;
 
     @Autowired
@@ -39,12 +40,23 @@ public class ProductosController {
     @Autowired
     IAplicacion<Categoria> aplicacionCategoria;
 
+    /**
+     * Método para obtener la información de un producto específico.
+     * @param id El ID del producto a buscar.
+     * @return Un objeto ProductoDTO con la información del producto.
+     */
     @GetMapping("/{id}")
-    public Producto viewProduct(@PathVariable int id) {
-        return aplicacionProducto.buscar(id);
-
+    public ProductoDTO viewProduct(@PathVariable int id) {
+        ProductoDTO productoDTO = new ProductoDTO();
+        productoDTO = DtoConverter.fromProducto(aplicacionProducto.buscar(id));
+        return productoDTO;
     }
 
+    /**
+     * Método para eliminar un producto por su ID.
+     * @param id El ID del producto a eliminar.
+     * @return Una respuesta HTTP indicando el resultado de la operación.
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
         if (aplicacionProducto.eliminar(id)) {
@@ -54,32 +66,33 @@ public class ProductosController {
         }
     }
 
+    /**
+     * Método para crear un nuevo producto.
+     * @param productoDTO El DTO del producto a crear.
+     * @return Una respuesta HTTP con el producto creado o un error.
+     */
     @PostMapping("/create")
     public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO productoDTO) {
         try {
-
             Producto producto = DtoConverter.fromProductoDTO(productoDTO);
-            // Aquí se asume que tienes un método para buscar un Vendedor por ID
             Vendedor vendedor = aplicacionVendedor.buscar(productoDTO.getVendedorId());
             List<Colore> colores = new ArrayList<>();
-            for (ColoreDTO coloreDTO : productoDTO.getColores()) {
-                colores.add(aplicacionColore.buscar(coloreDTO.getHex()));
+            for (String coloreDTO : productoDTO.getColores()) {
+                colores.add(aplicacionColore.buscar(coloreDTO));
             }
 
             List<Categoria> categorias = new ArrayList<>();
-            for (CategoriaDTO categoriaDTO : productoDTO.getCategorias()) {
-                categorias.add(aplicacionCategoria.buscar(categoriaDTO.getNombre()));
+            for (String categoriaDTO : productoDTO.getCategorias()) {
+                categorias.add(aplicacionCategoria.buscar(categoriaDTO));
             }
-            
-            
+
             producto.setColores(colores);
             producto.setCategorias(categorias);
             if (vendedor == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Vendedor no encontrado
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
 
-            // Convertir ProductoDTO a Producto
-            producto.setVendedor(vendedor); // Establecer el vendedor encontrado
+            producto.setVendedor(vendedor);
 
             if (aplicacionProducto.guardar(producto)) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(producto);
@@ -91,6 +104,12 @@ public class ProductosController {
         }
     }
 
+    /**
+     * Método para actualizar un producto existente.
+     * @param id El ID del producto a actualizar.
+     * @param producto El objeto Producto con los nuevos datos.
+     * @return Una respuesta HTTP indicando el resultado de la operación.
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable int id, @RequestBody Producto producto) {
         Producto existingProduct = aplicacionProducto.buscar(id);
@@ -113,9 +132,16 @@ public class ProductosController {
         }
     }
 
+    /**
+     * Método para obtener una lista de todos los productos.
+     * @return Una lista de objetos ProductoDTO con la información de todos los productos.
+     */
     @GetMapping("/all")
-    public List<Producto> verProductoesList() {
-        System.out.println(aplicacionProducto.obtenerTodos());
-        return aplicacionProducto.obtenerTodos();
+    public List<ProductoDTO> verProductoesList() {
+        List<ProductoDTO> productosDto = new ArrayList<>();
+        for (Producto producto : aplicacionProducto.obtenerTodos()) {
+            productosDto.add(DtoConverter.fromProducto(producto));
+        }
+        return productosDto;
     }
 }

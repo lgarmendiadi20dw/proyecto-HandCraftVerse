@@ -16,36 +16,36 @@ import java.util.List;
 
 public class DtoConverter {
 
-    // public static VendedorDTO fromVendedor(Vendedor vendedor) {
-    //     return VendedorDTO.builder()
-    //             .dni(vendedor.getDni())
-    //             .nombreUsuario(vendedor.getUsername())
-    //             .nombre(vendedor.getNombre())
-    //             .apellidos(vendedor.getApellidos())
-    //             .email(vendedor.getEmail())
-    //             .imagen(vendedor.getImagen())
-    //             .password(vendedor.getPassword())
-    //             .telefono(vendedor.getTelefono())
-    //             .numVentas(vendedor.getNum_ventas())
-    //             .descripcion(vendedor.getDescripcion())
-    //             .build();
-    // }
+    public static VendedorDTO fromVendedor(Vendedor vendedor) {
+        return VendedorDTO.builder()
+                .dni(vendedor.getDni())
+                .nombreUsuario(vendedor.getUsername())
+                .nombre(vendedor.getNombre())
+                .apellidos(vendedor.getApellidos())
+                .email(vendedor.getEmail())
+                .imagen(vendedor.getImagen())
+                .password(vendedor.getPassword())
+                .telefono(vendedor.getTelefono())
+                .numVentas(vendedor.getNum_ventas())
+                .descripcion(vendedor.getDescripcion())
+                .build();
+    }
 
-    // public static Vendedor fromVendedorDTO(VendedorDTO vendedorDTO) {
-    //     Vendedor vendedor = new Vendedor(
-    //             vendedorDTO.getNombreUsuario(),
-    //             vendedorDTO.getEmail(),
-    //             vendedorDTO.getPassword(),
-    //             vendedorDTO.getTelefono(),
-    //             vendedorDTO.getDescripcion());
+    public static Vendedor fromVendedorDTO(VendedorDTO vendedorDTO) {
+        Vendedor vendedor = new Vendedor();
 
-    //     vendedor.setNum_ventas(vendedorDTO.getNumVentas());
-    //     vendedor.setNombre(vendedorDTO.getNombre());
-    //     vendedor.setApellidos(vendedorDTO.getApellidos());
-    //     vendedor.setImagen(vendedorDTO.getImagen());
+        vendedor.setUsername(vendedorDTO.getNombreUsuario());
+        vendedor.setEmail(vendedorDTO.getEmail());
+        vendedor.setPassword(vendedorDTO.getPassword());
+        vendedor.setTelefono(vendedorDTO.getTelefono());
+        vendedor.setNum_ventas(vendedorDTO.getNumVentas());
+        vendedor.setNombre(vendedorDTO.getNombre());
+        vendedor.setApellidos(vendedorDTO.getApellidos());
+        vendedor.setDescripcion(vendedorDTO.getDescripcion());
+        vendedor.setImagen(vendedorDTO.getImagen());
 
-    //     return vendedor;
-    // }
+        return vendedor;
+    }
 
     public static ColoreDTO fromColore(Colore colore) {
         return ColoreDTO.builder()
@@ -105,7 +105,7 @@ public class DtoConverter {
 
         // Convertir la lista de Colores a ColoreDTO
         for (Colore colore : producto.getColores()) {
-            productoDTO.getColores().add(DtoConverter.fromColore(colore));
+            productoDTO.getColores().add(colore.getNombre());
         }
 
         // Convertir la lista de Multimedia a MultimediaDTO
@@ -115,7 +115,7 @@ public class DtoConverter {
 
         // Convertir la lista de Categorías a CategoriaDTO
         for (Categoria categoria : producto.getCategorias()) {
-            productoDTO.getCategorias().add(DtoConverter.fromCategoria(categoria));
+            productoDTO.getCategorias().add(categoria.getNombre());
         }
 
         return productoDTO;
@@ -142,11 +142,16 @@ public class DtoConverter {
         // producto.setColores(colores);
 
         // // Convertir la lista de MultimediaDTO a Multimedia
-        List<Multimedia> multimedias = new ArrayList<>();
+        if(productoDTO.getMultimedia() != null){
+            List<Multimedia> multimedias = new ArrayList<>();
         for (MultimediaDTO multimediaDTO : productoDTO.getMultimedia()) {
             multimedias.add(DtoConverter.fromMultimediaDTO(multimediaDTO));
         }
         producto.setMultimedias(multimedias);
+        }else{
+            producto.setMultimedias(null);
+        }
+        
 
         // // Convertir la lista de CategoriaDTO a Categoria
         // List<Categoria> categorias = new ArrayList<>();
@@ -157,7 +162,5 @@ public class DtoConverter {
 
         return producto;
     }
-
-    
 
 }

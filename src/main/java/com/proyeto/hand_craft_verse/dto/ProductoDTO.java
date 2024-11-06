@@ -13,13 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ProductoDTO {
-    private int vendedorId; // Cambiado de Vendedor a vendedorId
+    private int vendedorId;
     private String nombre;
     private float precio;
     private int stock;
     
     private String descripcion;
-    private List<ColoreDTO> colores; // O puedes usar una lista de ColorDTO
-    private List<MultimediaDTO> multimedia; // O puedes usar una lista de MultimediaDTO
-    private List<CategoriaDTO> categorias; // O puedes usar una lista de CategoriaDTO
+    private List<String> colores;
+    private List<MultimediaDTO> multimedia;
+    private List<String> categorias;
 }

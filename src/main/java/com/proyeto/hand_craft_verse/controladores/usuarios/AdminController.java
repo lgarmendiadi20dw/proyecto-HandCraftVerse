@@ -1,4 +1,4 @@
-package com.proyeto.hand_craft_verse.controladores;
+package com.proyeto.hand_craft_verse.controladores.usuarios;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,10 @@ import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 public class AdminController {
     @Autowired
     IAplicacion<Admin> aplicacionAdmin;
-@Autowired
-    // @Qualifier("getAplicacionUsuario")
+    @Autowired
     private AplicacionUsuario aplicacionUsuario;
 
-@PostMapping("/registrar")
+    @PostMapping("/registrar")
     public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
         UserGetDto toReturn = aplicacionUsuario.guardarAdmin(user);
         if (toReturn != null) {

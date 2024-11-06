@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Admin;
 import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 
@@ -45,6 +46,26 @@ public class UserDtoConverter {
                                 password(passwordEncoder.encode(usuarioDTO.getPassword())).
                                 email(usuarioDTO.getEmail()).
                                 roles(Stream.of(UserRoles.ADMIN).collect(Collectors.toSet())).
+                                //para los vendedores -> roles(Stream.of(UserRoles.USER, UserRoles.VENDEDOR).collect(Collectors.toSet())).
+                                build();
+        
+
+                                    
+
+        return respuesta;
+    }
+
+    public  Vendedor toVendedorUser(UserRegisterDto usuarioDTO)
+    {
+        Vendedor respuesta = 
+        // new Vendedor(usuarioDTO.getUsername(),usuarioDTO.getEmail(),passwordEncoder.encode(usuarioDTO.getPassword()).
+        // roles(Stream.of(UserRoles.Vendedor).collect(Collectors.toSet())));
+        
+        Vendedor.builder().
+                                username(usuarioDTO.getUsername()).
+                                password(passwordEncoder.encode(usuarioDTO.getPassword())).
+                                email(usuarioDTO.getEmail()).
+                                roles(Stream.of(UserRoles.VENDEDOR).collect(Collectors.toSet())).
                                 //para los vendedores -> roles(Stream.of(UserRoles.USER, UserRoles.VENDEDOR).collect(Collectors.toSet())).
                                 build();
         
