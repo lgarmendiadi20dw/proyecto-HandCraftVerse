@@ -10,12 +10,15 @@ public interface IAplicacion<T> {
 
     public T buscarPorNombre(String name);
     public List<Object[]> obtenerDatosColumnas(String nombreColumna1, String nombreColumna2);
+    public List<T> obtenerDatosColumna(String nombreColumna, String dato);
 
     public boolean eliminar(Object id);
 
     public List<T> obtenerTodos();
 
     public T actualizar(T t);
+
+    public List<T> obtenerPorColeccion(String collectionName, String attributeName, String value);
     
 
 }

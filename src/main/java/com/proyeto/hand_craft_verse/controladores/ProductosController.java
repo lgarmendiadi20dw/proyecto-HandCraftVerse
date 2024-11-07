@@ -42,6 +42,7 @@ public class ProductosController {
 
     /**
      * Método para obtener la información de un producto específico.
+     * 
      * @param id El ID del producto a buscar.
      * @return Un objeto ProductoDTO con la información del producto.
      */
@@ -54,6 +55,7 @@ public class ProductosController {
 
     /**
      * Método para eliminar un producto por su ID.
+     * 
      * @param id El ID del producto a eliminar.
      * @return Una respuesta HTTP indicando el resultado de la operación.
      */
@@ -68,6 +70,7 @@ public class ProductosController {
 
     /**
      * Método para crear un nuevo producto.
+     * 
      * @param productoDTO El DTO del producto a crear.
      * @return Una respuesta HTTP con el producto creado o un error.
      */
@@ -106,7 +109,8 @@ public class ProductosController {
 
     /**
      * Método para actualizar un producto existente.
-     * @param id El ID del producto a actualizar.
+     * 
+     * @param id       El ID del producto a actualizar.
      * @param producto El objeto Producto con los nuevos datos.
      * @return Una respuesta HTTP indicando el resultado de la operación.
      */
@@ -134,7 +138,9 @@ public class ProductosController {
 
     /**
      * Método para obtener una lista de todos los productos.
-     * @return Una lista de objetos ProductoDTO con la información de todos los productos.
+     * 
+     * @return Una lista de objetos ProductoDTO con la información de todos los
+     *         productos.
      */
     @GetMapping("/all")
     public List<ProductoDTO> verProductoesList() {
@@ -142,6 +148,28 @@ public class ProductosController {
         for (Producto producto : aplicacionProducto.obtenerTodos()) {
             productosDto.add(DtoConverter.fromProducto(producto));
         }
+        return productosDto;
+    }
+
+    /**
+     * Método para obtener productos por categoría.
+     * 
+     * @param nombre El nombre de la categoría.
+     * @return Una lista de objetos ProductoDTO con la información de los productos
+     *         de la categoría.
+     */
+    @GetMapping("/categoria/{nombre}")
+    public List<ProductoDTO> getProductsByCategory(@PathVariable String nombre) {
+        List<ProductoDTO> productosDto = new ArrayList<>();
+
+        // Usamos obtenerPorColeccion para filtrar productos por la categoría
+        // especificada
+        List<Producto> productos = aplicacionProducto.obtenerPorColeccion("categorias", "nombre", nombre);
+
+        for (Producto producto : productos) {
+            productosDto.add(DtoConverter.fromProducto(producto));
+        }
+
         return productosDto;
     }
 }

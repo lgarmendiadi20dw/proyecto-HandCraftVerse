@@ -83,4 +83,21 @@ public class Persistencia<T> implements IPersistencia<T> {
                 .setParameter("value", value).list();
     }
 
+    /**
+     * Método genérico para obtener entidades T filtrando por un valor en una colección relacionada.
+     *
+     * @param collectionName El nombre de la colección en la entidad T.
+     * @param attributeName El nombre del atributo en la entidad de la colección.
+     * @param value El valor del atributo a filtrar.
+     * @return Lista de entidades T que cumplen con el filtro.
+     */
+    @Override
+    public List<T> obtenerPorColeccion(String collectionName, String attributeName, String value) {
+        String hql = "select t from " + classType.getSimpleName() + " t join t." + collectionName + " c where c." + attributeName + " = :value";
+
+        return session.createQuery(hql, classType)
+                      .setParameter("value", value)
+                      .list();
+    }
+
 }
