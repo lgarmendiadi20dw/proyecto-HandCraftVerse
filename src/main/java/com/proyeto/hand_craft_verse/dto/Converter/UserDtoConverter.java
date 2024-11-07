@@ -45,7 +45,7 @@ public class UserDtoConverter {
                                 username(usuarioDTO.getUsername()).
                                 password(passwordEncoder.encode(usuarioDTO.getPassword())).
                                 email(usuarioDTO.getEmail()).
-                                roles(Stream.of(UserRoles.ADMIN).collect(Collectors.toSet())).
+                                roles(Stream.of(UserRoles.USER,UserRoles.ADMIN).collect(Collectors.toSet())).
                                 //para los vendedores -> roles(Stream.of(UserRoles.USER, UserRoles.VENDEDOR).collect(Collectors.toSet())).
                                 build();
         
@@ -65,7 +65,7 @@ public class UserDtoConverter {
                                 username(usuarioDTO.getUsername()).
                                 password(passwordEncoder.encode(usuarioDTO.getPassword())).
                                 email(usuarioDTO.getEmail()).
-                                roles(Stream.of(UserRoles.VENDEDOR).collect(Collectors.toSet())).
+                                roles(Stream.of( UserRoles.USER,UserRoles.VENDEDOR).collect(Collectors.toSet())).
                                 //para los vendedores -> roles(Stream.of(UserRoles.USER, UserRoles.VENDEDOR).collect(Collectors.toSet())).
                                 build();
         
