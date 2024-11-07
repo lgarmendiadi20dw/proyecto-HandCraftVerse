@@ -8,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @SuperBuilder
 public class Tarjeta extends InfoBancaria {

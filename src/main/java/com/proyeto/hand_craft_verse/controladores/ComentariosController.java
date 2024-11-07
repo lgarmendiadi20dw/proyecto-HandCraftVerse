@@ -2,8 +2,6 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Comentario;
-import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

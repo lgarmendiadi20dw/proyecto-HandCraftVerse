@@ -55,11 +55,10 @@ public class Producto {
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Multimedia> multimedias;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(
-        name = "producto_categoria",
-        joinColumns = @JoinColumn(name = "producto_id"),
-        inverseJoinColumns = @JoinColumn(name = "categoria_nombre")
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @JoinTable(name = "producto_categoria", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
+            inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
     )
     private List<Categoria> categorias;
 

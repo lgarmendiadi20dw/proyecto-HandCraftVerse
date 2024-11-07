@@ -7,6 +7,8 @@ import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
+import com.proyeto.hand_craft_verse.dto.ColoreDTO;
 import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 
@@ -74,10 +76,11 @@ public class ProductosController {
      * @param productoDTO El DTO del producto a crear.
      * @return Una respuesta HTTP con el producto creado o un error.
      */
-    @PostMapping("/create")
+   @PostMapping("/create")
     public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO productoDTO) {
         try {
-            Producto producto = DtoConverter.fromProductoDTO(productoDTO);
+
+            Producto prueba = DtoConverter.fromProductoDTO(productoDTO);
             Vendedor vendedor = aplicacionVendedor.buscar(productoDTO.getVendedorId());
             List<Colore> colores = new ArrayList<>();
             for (String coloreDTO : productoDTO.getColores()) {
@@ -88,17 +91,18 @@ public class ProductosController {
             for (String categoriaDTO : productoDTO.getCategorias()) {
                 categorias.add(aplicacionCategoria.buscar(categoriaDTO));
             }
-
-            producto.setColores(colores);
-            producto.setCategorias(categorias);
+            
+            
+            prueba.setColores(colores);
+            prueba.setCategorias(categorias);
             if (vendedor == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Vendedor no encontrado
             }
 
-            producto.setVendedor(vendedor);
+            prueba.setVendedor(vendedor); // Establecer el vendedor encontrado
 
-            if (aplicacionProducto.guardar(producto)) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(producto);
+            if (aplicacionProducto.guardar(prueba)) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(prueba);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
