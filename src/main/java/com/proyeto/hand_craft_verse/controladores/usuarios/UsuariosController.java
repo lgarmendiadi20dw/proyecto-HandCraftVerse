@@ -27,12 +27,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @AllArgsConstructor
@@ -46,9 +40,6 @@ public class UsuariosController {
     @Autowired
     // @Qualifier("getAplicacionUsuario")
     private AplicacionUsuario aplicacionUsuario;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @PostMapping("/registrar")
     public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
@@ -64,26 +55,7 @@ public class UsuariosController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserRegisterDto user) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok("Login successful");
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
-        }
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return ResponseEntity.ok("Logout successful");
-    }
+   
 
     @GetMapping("/{id}")
     public Usuario viewMyPorfile(@PathVariable int id) {
