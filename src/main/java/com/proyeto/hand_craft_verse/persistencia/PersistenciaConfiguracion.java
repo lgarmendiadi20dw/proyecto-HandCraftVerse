@@ -28,77 +28,77 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 public class PersistenciaConfiguracion {
 
     @Bean
-    public IPersistencia<Usuario> getPersistenciaUsuario() {
-        return new Persistencia<Usuario>(getSession(), Usuario.class);
+    public IPersistencia<Usuario> getPersistenciaUsuario(SessionFactory session) {
+        return new Persistencia<Usuario>(session, Usuario.class);
     }
 
     @Bean
-    public IPersistencia<Vendedor> getPersistenciaVendedor() {
-        return new Persistencia<Vendedor>(getSession(), Vendedor.class);
+    public IPersistencia<Vendedor> getPersistenciaVendedor(SessionFactory session) {
+        return new Persistencia<Vendedor>(session, Vendedor.class);
     }
 
     @Bean
-    public IPersistencia<Admin> getPersistenciaAdmin() {
-        return new Persistencia<Admin>(getSession(), Admin.class);
+    public IPersistencia<Admin> getPersistenciaAdmin(SessionFactory session) {
+        return new Persistencia<Admin>(session, Admin.class);
     }
 
     @Bean
-    public IPersistencia<Producto> getPersistenciaProducto() {
-        return new Persistencia<Producto>(getSession(), Producto.class);
+    public IPersistencia<Producto> getPersistenciaProducto(SessionFactory session) {
+        return new Persistencia<Producto>(session, Producto.class);
     }
 
     @Bean
-    public IPersistencia<Multimedia> getPersistenciaMultimedia() {
-        return new Persistencia<Multimedia>(getSession(), Multimedia.class);
+    public IPersistencia<Multimedia> getPersistenciaMultimedia(SessionFactory session) {
+        return new Persistencia<Multimedia>(session, Multimedia.class);
     }
 
     @Bean
-    public IPersistencia<Colore> getPersistenciaColore() {
-        return new Persistencia<Colore>(getSession(), Colore.class);
+    public IPersistencia<Colore> getPersistenciaColore(SessionFactory session) {
+        return new Persistencia<Colore>(session, Colore.class);
     }
 
     @Bean
-    public IPersistencia<Comentario> getPersistenciaComentario() {
-        return new Persistencia<Comentario>(getSession(), Comentario.class);
+    public IPersistencia<Comentario> getPersistenciaComentario(SessionFactory session) {
+        return new Persistencia<Comentario>(session, Comentario.class);
     }
 
     @Bean
-    public IPersistencia<Direccion> getPersistenciaDireccion() {
-        return new Persistencia<Direccion>(getSession(), Direccion.class);
+    public IPersistencia<Direccion> getPersistenciaDireccion(SessionFactory session) {
+        return new Persistencia<Direccion>(session, Direccion.class);
     }
 
     @Bean
-    public IPersistencia<EstadoPedido> getPersistenciaEstadoPedido() {
-        return new Persistencia<EstadoPedido>(getSession(), EstadoPedido.class);
+    public IPersistencia<EstadoPedido> getPersistenciaEstadoPedido(SessionFactory session) {
+        return new Persistencia<EstadoPedido>(session, EstadoPedido.class);
     }
 
     @Bean
-    public IPersistencia<Pedido> getPersistenciaPedido() {
-        return new Persistencia<Pedido>(getSession(), Pedido.class);
+    public IPersistencia<Pedido> getPersistenciaPedido(SessionFactory session) {
+        return new Persistencia<Pedido>(session, Pedido.class);
     }
 
     @Bean
-    public IPersistencia<PedidoProducto> getPersistenciaPedidoProducto() {
-        return new Persistencia<PedidoProducto>(getSession(), PedidoProducto.class);
+    public IPersistencia<PedidoProducto> getPersistenciaPedidoProducto(SessionFactory session) {
+        return new Persistencia<PedidoProducto>(session, PedidoProducto.class);
     }
 
     @Bean
-    public IPersistencia<RedesSociales> getPersistenciaRedesSociales() {
-        return new Persistencia<RedesSociales>(getSession(), RedesSociales.class);
+    public IPersistencia<RedesSociales> getPersistenciaRedesSociales(SessionFactory session) {
+        return new Persistencia<RedesSociales>(session, RedesSociales.class);
     }
 
     @Bean
-    public IPersistencia<TipoDireccion> getPersistenciaTipoDireccion() {
-        return new Persistencia<TipoDireccion>(getSession(), TipoDireccion.class);
+    public IPersistencia<TipoDireccion> getPersistenciaTipoDireccion(SessionFactory session) {
+        return new Persistencia<TipoDireccion>(session, TipoDireccion.class);
     }
 
     @Bean
-    public IPersistencia<Categoria> getPersistenciaCategoria() {
-        return new Persistencia<Categoria>(getSession(), Categoria.class);
+    public IPersistencia<Categoria> getPersistenciaCategoria(SessionFactory session) {
+        return new Persistencia<Categoria>(session, Categoria.class);
     }
 
     @Bean
-    public Session getSession() {
+    public SessionFactory getSession() {
         Configuration conf = new Configuration();
         SessionFactory factory = conf.configure()
                 .addAnnotatedClass(Usuario.class)
@@ -121,8 +121,6 @@ public class PersistenciaConfiguracion {
                 .addAnnotatedClass(Paypal.class)
                 .buildSessionFactory();
 
-        Session session = factory.openSession();
-
-        return session;
+        return factory;
     }
 }
