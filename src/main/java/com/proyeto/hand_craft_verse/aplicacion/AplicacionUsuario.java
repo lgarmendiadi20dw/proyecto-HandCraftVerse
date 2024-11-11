@@ -7,7 +7,6 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
-import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 import com.proyeto.hand_craft_verse.dto.Converter.UserDtoConverter;
 import com.proyeto.hand_craft_verse.persistencia.IPersistencia;
 

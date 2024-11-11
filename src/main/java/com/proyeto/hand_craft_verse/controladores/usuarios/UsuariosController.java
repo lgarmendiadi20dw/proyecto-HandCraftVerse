@@ -4,6 +4,8 @@ import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
+import com.proyeto.hand_craft_verse.dto.UsuarioDTO;
+import com.proyeto.hand_craft_verse.dto.Converter.UserDtoConverter;
 
 import lombok.AllArgsConstructor;
 
@@ -26,18 +28,28 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @AllArgsConstructor
 @EnableMethodSecurity
 @RequestMapping("/member")
 public class UsuariosController {
-    // @Autowired
-    // @Qualifier("getAplicacionUsuarios")
-    // private IAplicacion<Usuario> iaplicacionUsuario;
+    @Autowired
+    private AplicacionUsuario aplicacionUsuario;
 
     @Autowired
-    // @Qualifier("getAplicacionUsuario")
-    private AplicacionUsuario aplicacionUsuario;
+    private UserDtoConverter userDtoConverter;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping("/registrar")
     public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
@@ -54,8 +66,9 @@ public class UsuariosController {
     }
 
     @GetMapping("/{id}")
-    public Usuario viewMyPorfile(@PathVariable int id) {
-        return aplicacionUsuario.buscar(id);
+    public UsuarioDTO viewMyPorfile(@PathVariable int id) {
+        UsuarioDTO toReturn = userDtoConverter.fromUsuarioToUsuarioDTO(aplicacionUsuario.buscar(id));
+        return toReturn;
     }
 
     @GetMapping("/me")
@@ -137,6 +150,28 @@ public class UsuariosController {
     @GetMapping("/allData")
     public List<Usuario> verUsuariosListAll() {
         return aplicacionUsuario.obtenerTodos();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserRegisterDto user) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return ResponseEntity.ok("Inicio de sesión exitoso");
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+        }
+    }
+
+    @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return ResponseEntity.ok("Sesión cerrada exitosamente");
     }
 
 }

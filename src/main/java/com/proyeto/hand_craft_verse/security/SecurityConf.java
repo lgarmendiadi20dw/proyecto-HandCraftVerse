@@ -2,9 +2,14 @@ package com.proyeto.hand_craft_verse.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+// import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,30 +20,21 @@ import lombok.AllArgsConstructor;
 
 @Configuration
 @AllArgsConstructor
+@EnableWebSecurity
 public class SecurityConf {
 
     private PasswordEncoder passwordEncoder;
+    private final CustomUserDetailService customUserDetailService;
 
     @Bean
     public UserDetailsService userDetailsService(AplicacionUsuario persistenciaUsuario) {
         return new CustomUserDetailService(persistenciaUsuario);
     }
 
-    // @Bean
-    // public UserDetailsService userDetailsService() {
-    // InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-
-    // UserDetails usuario1 =
-    // User.builder().username("legadilo2").password(passwordEncoder.encode("1234"))
-    // .roles("USER").build(),
-    // usuario2 =
-    // User.builder().username("legadilo3").password(passwordEncoder.encode("1234")).roles("ADMIN")
-    // .build();
-
-    // manager.createUser(usuario1);
-    // manager.createUser(usuario2);
-    // return manager;
-    // }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

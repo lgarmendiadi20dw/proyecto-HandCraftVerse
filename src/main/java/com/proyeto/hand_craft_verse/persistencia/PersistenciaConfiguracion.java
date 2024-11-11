@@ -4,8 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.direccion.TipoDireccion;

@@ -7,8 +7,6 @@ import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
-import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
-import com.proyeto.hand_craft_verse.dto.ColoreDTO;
 import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 
