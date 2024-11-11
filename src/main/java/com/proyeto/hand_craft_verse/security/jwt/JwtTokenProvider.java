@@ -1,6 +1,5 @@
 package com.proyeto.hand_craft_verse.security.jwt;
 
-
 import io.jsonwebtoken.Jwts;
 
 import io.jsonwebtoken.security.Keys;
@@ -18,7 +17,6 @@ import javax.crypto.SecretKey;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-
 
     @Autowired
     SecretKey key;
@@ -39,39 +37,33 @@ public class JwtTokenProvider {
     }
 
     public String getUsernameFromJWT(String token) {
+        String toReturn = null;
         try {
-            String username = Jwts
-                    .parser()
+           toReturn= Jwts.parser()
                     .verifyWith(key)
                     .build()
                     .parseSignedClaims(token)
                     .getPayload()
-                    .getSubject();          
-            return username;
+                    .getSubject();
+            return toReturn;
 
         } catch (Exception ex) {
-            throw new RuntimeException("Unable to get username from token", ex);
+            ex.printStackTrace();
+            return null;
         }
     }
 
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(authToken);
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(authToken);
 
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException ex) {
-            throw new RuntimeException("Invalid JWT signature");
-        } catch (io.jsonwebtoken.ExpiredJwtException ex) {
-            throw new RuntimeException("Expired JWT token");
-        } catch (io.jsonwebtoken.UnsupportedJwtException ex) {
-            throw new RuntimeException("Unsupported JWT token");
-        } catch (io.jsonwebtoken.MalformedJwtException ex) {
-            throw new RuntimeException("Malformed JWT token");
         } catch (Exception ex) {
-            throw new RuntimeException("Invalid JWT token");
+            ex.printStackTrace();
+            return false;
         }
     }
 }
