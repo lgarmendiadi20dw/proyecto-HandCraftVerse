@@ -32,6 +32,10 @@ public class Persistencia<T> implements IPersistencia<T> {
                 session.getTransaction().rollback();
                 session.close();
             }
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                // Manejar la excepción de duplicado aquí
+                System.out.println("Duplicate entry detected: " + e.getMessage());
+            }
             return false;
         }
     }
