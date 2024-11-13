@@ -22,7 +22,7 @@ public class Persistencia<T> implements IPersistencia<T> {
             session = sessionFactory.openSession();
 
             session.beginTransaction();
-            session.persist(t);
+            session.merge(t);
             session.getTransaction().commit();
             session.close();
             return true;
