@@ -1,6 +1,7 @@
 package com.proyeto.hand_craft_verse.dto.Converter;
 
 import com.proyeto.hand_craft_verse.aplicacion.Aplicacion;
+import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
@@ -8,6 +9,7 @@ import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
 import com.proyeto.hand_craft_verse.dto.ColoreDTO;
+import com.proyeto.hand_craft_verse.dto.DireccionDTO;
 import com.proyeto.hand_craft_verse.dto.MultimediaDTO;
 import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.VendedorDTO;
@@ -15,16 +17,10 @@ import com.proyeto.hand_craft_verse.dto.VendedorDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DtoConverter {
-    @Autowired
-    private static Aplicacion<Colore> aplicacionColore;
-
-    @Autowired
-    private static Aplicacion<Categoria> aplicacionCategoria;
 
     
         public static VendedorDTO fromVendedor(Vendedor vendedor) {
@@ -147,5 +143,34 @@ public class DtoConverter {
         }
 
         return producto;
+    }
+
+
+    public static DireccionDTO fromDireccion(Direccion direccion) {
+        DireccionDTO dto = new DireccionDTO();
+        dto.setId(direccion.getId());
+        dto.setPais(direccion.getPais());
+        dto.setProvincia(direccion.getProvincia());
+        dto.setMunicipio(direccion.getMunicipio());
+        dto.setCalle(direccion.getCalle());
+        dto.setPrefijo(direccion.getPrefijo());
+        dto.setNumTelefono(direccion.getNumTelefono());
+        dto.setDestinatario(direccion.getDestinatario());
+        dto.setTipoDireccion(direccion.getTipoDireccion());
+        return dto;
+    }
+
+    public static Direccion fromDireccionDTO(DireccionDTO dto) {
+        Direccion direccion = new Direccion();
+        direccion.setId(dto.getId());
+        direccion.setPais(dto.getPais());
+        direccion.setProvincia(dto.getProvincia());
+        direccion.setMunicipio(dto.getMunicipio());
+        direccion.setCalle(dto.getCalle());
+        direccion.setPrefijo(dto.getPrefijo());
+        direccion.setNumTelefono(dto.getNumTelefono());
+        direccion.setDestinatario(dto.getDestinatario());
+        direccion.setTipoDireccion(dto.getTipoDireccion());
+        return direccion;
     }
 }

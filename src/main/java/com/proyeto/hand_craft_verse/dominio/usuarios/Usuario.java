@@ -47,7 +47,7 @@ public class Usuario implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<UserRoles> roles;
 
-    @Column(unique = true, nullable = true)
+    @Column(unique = true)
     private String dni;
 
     @Column(unique = true, nullable = false)

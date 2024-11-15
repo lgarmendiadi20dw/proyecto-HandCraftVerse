@@ -164,8 +164,6 @@ public class ProductosController {
     public List<ProductoDTO> getProductsByCategory(@PathVariable String nombre) {
         List<ProductoDTO> productosDto = new ArrayList<>();
 
-        // Usamos obtenerPorColeccion para filtrar productos por la categoría
-        // especificada
         List<Producto> productos = aplicacionProducto.obtenerPorColeccion("categorias", "nombre", nombre);
 
         for (Producto producto : productos) {

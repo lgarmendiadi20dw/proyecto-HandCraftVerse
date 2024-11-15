@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class VendedorDTO  {
     private int telefono;
     private int numVentas;
     private String descripcion;
+    private List<Integer> direccionesEnvio;
 
    
 }
