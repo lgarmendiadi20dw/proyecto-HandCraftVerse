@@ -10,9 +10,9 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
 import com.proyeto.hand_craft_verse.dto.ColoreDTO;
 import com.proyeto.hand_craft_verse.dto.DireccionDTO;
-import com.proyeto.hand_craft_verse.dto.MultimediaDTO;
-import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.VendedorDTO;
+import com.proyeto.hand_craft_verse.dto.Productos.MultimediaDTO;
+import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,54 +96,7 @@ public class DtoConverter {
             return multimedia;
         }
     
-        public static ProductoDTO fromProducto(Producto producto) {
-            ProductoDTO productoDTO = ProductoDTO.builder()
-                    .vendedorId(producto.getVendedor().getId())
-                    .nombre(producto.getNombre())
-                    .precio(producto.getPrecio())
-                    .stock(producto.getStock())
-                    .descripcion(producto.getDescripcion())
-                    .colores(new ArrayList<>())
-                    .multimedia(new ArrayList<>())
-                    .categorias(new ArrayList<>())
-                    .build();
-    
-            for (Colore colore : producto.getColores()) {
-                productoDTO.getColores().add(colore.getNombre());
-            }
-    
-            for (Multimedia multimedia : producto.getMultimedias()) {
-                productoDTO.getMultimedia().add(fromMultimedia(multimedia));
-            }
-    
-            for (Categoria categoria : producto.getCategorias()) {
-                productoDTO.getCategorias().add(categoria.getNombre());
-            }
-    
-            return productoDTO;
-        }
-    
-        public static Producto fromProductoDTO(ProductoDTO productoDTO) {
-            Producto producto = new Producto();
-            
-        producto.setNombre(productoDTO.getNombre());
-        producto.setPrecio(productoDTO.getPrecio());
-        producto.setStock(productoDTO.getStock());
-        producto.setDescripcion(productoDTO.getDescripcion());
-
         
-        if (productoDTO.getMultimedia() != null) {
-            List<Multimedia> multimedias = new ArrayList<>();
-            for (MultimediaDTO multimediaDTO : productoDTO.getMultimedia()) {
-                multimedias.add(fromMultimediaDTO(multimediaDTO));
-            }
-            producto.setMultimedias(multimedias);
-        } else {
-            producto.setMultimedias(null);
-        }
-
-        return producto;
-    }
 
 
     public static DireccionDTO fromDireccion(Direccion direccion) {

@@ -18,7 +18,7 @@ public interface IPersistencia<T> {
 
     public List<T> query(String key, String value);
 
-    public List<T> obtenerPorColeccion(String collectionName, String attributeName, String value);
+    public List<T> obtenerPorColeccion(String collectionName, String attributeName, Object value);
 
 
 }

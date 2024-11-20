@@ -7,8 +7,11 @@ import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
-import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
+import com.proyeto.hand_craft_verse.dto.Converter.ProductoDtoConverter;
+import com.proyeto.hand_craft_verse.dto.Productos.MostrarProductoDTO;
+import com.proyeto.hand_craft_verse.dto.Productos.MultimediaDTO;
+import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +52,9 @@ public class ProductosController {
      * @return Un objeto ProductoDTO con la información del producto.
      */
     @GetMapping("/{id}")
-    public ProductoDTO viewProduct(@PathVariable int id) {
-        ProductoDTO productoDTO = new ProductoDTO();
-        productoDTO = DtoConverter.fromProducto(aplicacionProducto.buscar(id));
+    public MostrarProductoDTO viewProduct(@PathVariable int id) {
+        MostrarProductoDTO productoDTO = new MostrarProductoDTO();
+        productoDTO = ProductoDtoConverter.fromProductoToMostrarProductoDTO(aplicacionProducto.buscar(id));
         return productoDTO;
     }
 
@@ -82,7 +85,7 @@ public class ProductosController {
         // public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO productoDTO, @AuthenticationPrincipal Vendedor user) {
         try {
 
-            Producto prueba = DtoConverter.fromProductoDTO(productoDTO);
+            Producto prueba = ProductoDtoConverter.fromProductoDTO(productoDTO);
             Vendedor vendedor = aplicacionVendedor.buscar(productoDTO.getVendedorId());
             List<Colore> colores = new ArrayList<>();
             for (String coloreDTO : productoDTO.getColores()) {
@@ -152,7 +155,7 @@ public class ProductosController {
     public List<ProductoDTO> verProductoesList() {
         List<ProductoDTO> productosDto = new ArrayList<>();
         for (Producto producto : aplicacionProducto.obtenerTodos()) {
-            productosDto.add(DtoConverter.fromProducto(producto));
+            productosDto.add(ProductoDtoConverter.fromProducto(producto));
         }
         return productosDto;
     }
@@ -165,15 +168,25 @@ public class ProductosController {
      *         de la categoría.
      */
     @GetMapping("/categoria/{nombre}")
-    public List<ProductoDTO> getProductsByCategory(@PathVariable String nombre) {
-        List<ProductoDTO> productosDto = new ArrayList<>();
+    public List<MostrarProductoDTO> getProductsByCategory(@PathVariable String nombre) {
+        List<MostrarProductoDTO> productosDto = new ArrayList<>();
 
         List<Producto> productos = aplicacionProducto.obtenerPorColeccion("categorias", "nombre", nombre);
 
         for (Producto producto : productos) {
-            productosDto.add(DtoConverter.fromProducto(producto));
+            productosDto.add(ProductoDtoConverter.fromProductoToMostrarProductoDTO(producto));
         }
 
         return productosDto;
+    }
+
+    @GetMapping("/{id}/multimedia")
+    public List<MultimediaDTO> getProductMultimedia(@PathVariable int id) {
+        List<MultimediaDTO> multimediaDTO= new ArrayList<>();
+        List<Multimedia> multimediaList = aplicacionMultimedia.obtenerPorColeccion("producto", "id", id);
+        for (Multimedia multimedia : multimediaList) {
+            multimediaDTO.add(DtoConverter.fromMultimedia(multimedia));
+        }
+        return multimediaDTO;
     }
 }

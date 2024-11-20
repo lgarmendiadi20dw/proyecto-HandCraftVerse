@@ -146,7 +146,7 @@ public class Persistencia<T> implements IPersistencia<T> {
      * @return Lista de entidades T que cumplen con el filtro.
      */
     @Override
-    public List<T> obtenerPorColeccion(String collectionName, String attributeName, String value) {
+    public List<T> obtenerPorColeccion(String collectionName, String attributeName, Object value) {
         Session session = sessionFactory.openSession();
         String hql = "select t from " + classType.getSimpleName() + " t join t." + collectionName + " c where c."
                 + attributeName + " = :value";

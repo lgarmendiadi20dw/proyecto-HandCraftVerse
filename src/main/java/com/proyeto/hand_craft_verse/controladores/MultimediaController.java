@@ -71,6 +71,16 @@ public class MultimediaController {
         }
     }
 
+    @GetMapping("/producto/{productoId}")
+    public ResponseEntity<List<Multimedia>> getMultimediaByProducto(@PathVariable int productoId) {
+        List<Multimedia> multimediaList = aplicacionMultimedia.obtenerPorColeccion("producto", "id", productoId);
+        if (multimediaList != null && !multimediaList.isEmpty()) {
+            return ResponseEntity.ok(multimediaList);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
     @GetMapping("/all")
     public List<Multimedia> verMultimediaList() {
         return aplicacionMultimedia.obtenerTodos();

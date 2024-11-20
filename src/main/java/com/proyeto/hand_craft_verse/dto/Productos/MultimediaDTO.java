@@ -1,4 +1,4 @@
-package com.proyeto.hand_craft_verse.dto;
+package com.proyeto.hand_craft_verse.dto.Productos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

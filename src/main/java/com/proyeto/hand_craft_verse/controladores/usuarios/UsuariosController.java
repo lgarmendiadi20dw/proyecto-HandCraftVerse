@@ -177,7 +177,10 @@ public class UsuariosController {
 
             response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-            return ResponseEntity.ok("Sesión iniciada exitosamente");
+            Usuario usuario = (Usuario) authentication.getPrincipal();
+            UsuarioDTO usuarioDTO = userDtoConverter.fromUsuarioToUsuarioDTO(usuario);
+
+            return ResponseEntity.ok(usuarioDTO);
 
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
