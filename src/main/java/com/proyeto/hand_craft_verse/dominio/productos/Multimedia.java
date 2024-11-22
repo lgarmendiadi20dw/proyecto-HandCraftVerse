@@ -19,11 +19,11 @@ import lombok.NoArgsConstructor;
 public class Multimedia {
     
     @Id
-    private String url;
+    private String url;//URL en la que se almacena la imagen
 
     private String alt;
 
-    private String nombreArchivo;
+    private String nombreArchivo; // dato que se utiliza para mostrar la imagen en el front
 
     @ManyToOne
     @JoinColumn(name="producto")

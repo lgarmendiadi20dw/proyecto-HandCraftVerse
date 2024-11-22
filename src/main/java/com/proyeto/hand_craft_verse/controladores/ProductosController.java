@@ -16,6 +16,7 @@ import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -182,11 +183,15 @@ public class ProductosController {
 
     @GetMapping("/{id}/multimedia")
     public List<MultimediaDTO> getProductMultimedia(@PathVariable int id) {
+        
         List<MultimediaDTO> multimediaDTO= new ArrayList<>();
         List<Multimedia> multimediaList = aplicacionMultimedia.obtenerPorColeccion("producto", "id", id);
         for (Multimedia multimedia : multimediaList) {
+            
             multimediaDTO.add(DtoConverter.fromMultimedia(multimedia));
         }
         return multimediaDTO;
     }
+
+   
 }

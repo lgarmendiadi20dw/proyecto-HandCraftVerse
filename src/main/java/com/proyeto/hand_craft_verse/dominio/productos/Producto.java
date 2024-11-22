@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -42,19 +43,24 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Usuario> usuariosFavoritos;
 
+    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinTable(name = "color_producto", joinColumns = @JoinColumn(name = "producto"), inverseJoinColumns = @JoinColumn(name = "color"))
     private List<Colore> colores;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Multimedia> multimedias;
 
+    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinTable(name = "producto_categoria", // Nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
