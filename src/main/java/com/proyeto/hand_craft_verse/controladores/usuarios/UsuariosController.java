@@ -94,6 +94,14 @@ public class UsuariosController {
         return "hola " + usuario.getUsername();
     }
 
+    @GetMapping("/me3")
+    @PreAuthorize("isAuthenticated()")
+    public UserGetDto getMethodName3(@AuthenticationPrincipal Usuario usuario) {
+
+        return userDtoConverter.toUserGetDto(usuario);
+
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUsuarioByid(@PathVariable int id) {
         if (aplicacionUsuario.eliminar(id)) {
@@ -172,6 +180,7 @@ public class UsuariosController {
             ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
                     .path("/")
                     .httpOnly(true)
+                    .secure(true)
                     .sameSite("None")
                     .build();
 
@@ -187,6 +196,17 @@ public class UsuariosController {
         }
     }
 
-    
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+                .path("/")
+                .httpOnly(true)
+                .sameSite("None")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        return ResponseEntity.ok("Logout");
+    }
 
 }
