@@ -71,9 +71,16 @@ public class UserDtoConverter {
     }
 
     public UsuarioDTO fromUsuarioToUsuarioDTO(Usuario usuario) {
-        UsuarioDTO respuesta = UsuarioDTO.builder().nombre(usuario.getNombre()).apellidos(usuario.getApellidos())
-                .username(usuario.getUsername()).email(usuario.getEmail()).telefono(usuario.getTelefono())
-                .roles(usuario.getRoles().toString()).build();
+        UsuarioDTO respuesta = UsuarioDTO.builder()
+                .nombre(usuario.getNombre())
+                .apellidos(usuario.getApellidos())
+                .username(usuario.getUsername())
+                .email(usuario.getEmail())
+                .telefono(usuario.getTelefono())
+                .imagen(usuario.getImagen())
+                .roles(usuario.getRoles()
+                .toString())
+                .build();
 
         return respuesta;
     }

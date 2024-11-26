@@ -31,7 +31,7 @@ public class AplicacionUsuario extends Aplicacion<Usuario> {
                     usuario.getEmail().compareTo(usuario.getEmailConfirm()) == 0) {
 
                 usuarioADevolver = userDtoConverter.toUser(usuario);
-
+                    usuarioADevolver.setImagen("userIcon.webp");
                 if (persistencia.guardar(usuarioADevolver)) {
                     return userDtoConverter.toUserGetDto(usuarioADevolver);
                 } else {

@@ -96,9 +96,9 @@ public class UsuariosController {
 
     @GetMapping("/me3")
     @PreAuthorize("isAuthenticated()")
-    public UserGetDto getMethodName3(@AuthenticationPrincipal Usuario usuario) {
+    public UsuarioDTO getMethodName3(@AuthenticationPrincipal Usuario usuario) {
 
-        return userDtoConverter.toUserGetDto(usuario);
+        return userDtoConverter.fromUsuarioToUsuarioDTO(usuario);
 
     }
 
