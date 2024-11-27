@@ -67,11 +67,15 @@ public class ProductosController {
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
-        if (aplicacionProducto.eliminar(id)) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        Producto producto = aplicacionProducto.buscar(id);
+        if (producto != null) {
+            producto.getCategorias().clear(); // Eliminar asociaciones de categorías
+            aplicacionProducto.actualizar(producto); // Actualizar el producto antes de eliminar
+            if (aplicacionProducto.eliminar(id)) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     /**

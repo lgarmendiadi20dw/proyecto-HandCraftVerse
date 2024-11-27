@@ -39,8 +39,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -197,16 +195,19 @@ public class UsuariosController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
+    public ResponseEntity<?> logoutUser(HttpServletResponse response) {
+
         ResponseCookie cookie = ResponseCookie.from("jwt", "")
                 .path("/")
                 .httpOnly(true)
+                .secure(true)
                 .sameSite("None")
                 .maxAge(0)
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        return ResponseEntity.ok("Logout");
+
+        return ResponseEntity.ok("Logged out");
     }
 
 }

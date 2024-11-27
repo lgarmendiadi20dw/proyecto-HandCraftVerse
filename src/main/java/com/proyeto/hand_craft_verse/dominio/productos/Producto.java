@@ -61,33 +61,11 @@ public class Producto {
     private List<Multimedia> multimedias;
 
     @JsonIgnore
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "producto_categoria", // Nombre de la tabla intermedia
             joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
             inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
     )
     private List<Categoria> categorias;
-
-    public Producto(Vendedor vendedor, String nombre, float precio, int stock, String descripcion, List<Colore> colores,
-            List<Multimedia> multimedias, List<Categoria> categorias) {
-        this.vendedor = vendedor;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.descripcion = descripcion;
-        this.colores = colores;
-        this.multimedias = multimedias;
-        this.categorias = categorias;
-    }
-
-    public Producto(Vendedor vendedor, String nombre, float precio, int stock, String descripcion, List<Colore> colores,
-            List<Categoria> categorias) {
-        this.vendedor = vendedor;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.colores = colores;
-        this.categorias = categorias;
-    }
 
 }

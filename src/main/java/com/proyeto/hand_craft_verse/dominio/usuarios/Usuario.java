@@ -71,10 +71,10 @@ public class Usuario implements UserDetails {
     @JsonManagedReference
     private List<Direccion> direccionesEnvio;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST)
     private List<Comentario> comentarios;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
