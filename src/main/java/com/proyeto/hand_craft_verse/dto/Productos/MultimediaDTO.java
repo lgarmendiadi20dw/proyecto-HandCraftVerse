@@ -13,4 +13,5 @@ public class MultimediaDTO {
     private String url;             // URL de la multimedia
     private String alt;             // Texto alternativo de la imagen
     private String nombreArchivo;    // Nombre del archivo de la multimedia
+    private int producto;           // ID del producto al que pertenece la multimedia
 }

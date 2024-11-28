@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,6 +34,7 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = false)
+    @JsonBackReference
     private Vendedor vendedor;
 
     private String nombre;
@@ -43,29 +46,36 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Comentario> comentarios;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<Usuario> usuariosFavoritos;
 
-    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinTable(name = "color_producto", joinColumns = @JoinColumn(name = "producto"), inverseJoinColumns = @JoinColumn(name = "color"))
+    @JsonIgnoreProperties("productos")  // Evitar la serialización de la relación circular
     private List<Colore> colores;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Multimedia> multimedias;
 
-    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "producto_categoria", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
-            inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
-    )
+    @JoinTable(name = "producto_categoria", 
+               joinColumns = @JoinColumn(name = "producto_id"), 
+               inverseJoinColumns = @JoinColumn(name = "categoria_nombre"))
+    @JsonIgnoreProperties("productos")  // Evitar la serialización de la relación circular
     private List<Categoria> categorias;
 
+    // Si deseas, puedes inicializar colecciones en el constructor o en un método.
+    public void initializeCollections() {
+        if (this.categorias != null) {
+            this.categorias.size();  // Inicializar la colección de categorías
+        }
+        if (this.colores != null) {
+            this.colores.size();  // Inicializar la colección de colores
+        }
+    }
 }

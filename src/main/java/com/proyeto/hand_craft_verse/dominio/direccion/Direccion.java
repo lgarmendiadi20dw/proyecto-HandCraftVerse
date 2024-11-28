@@ -3,6 +3,7 @@ package com.proyeto.hand_craft_verse.dominio.direccion;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyeto.hand_craft_verse.dominio.pedidos.Pedido;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
@@ -32,9 +33,9 @@ public class Direccion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "usuario_id") 
-    @JsonBackReference
     private Usuario cuentaUsuario;
 
     private String pais;
@@ -45,6 +46,7 @@ public class Direccion {
     private int numTelefono; 
     private String destinatario;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "direccion")
     private List<Pedido> pedidos;
 

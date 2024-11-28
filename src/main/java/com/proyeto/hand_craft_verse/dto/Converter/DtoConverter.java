@@ -12,10 +12,6 @@ import com.proyeto.hand_craft_verse.dto.ColoreDTO;
 import com.proyeto.hand_craft_verse.dto.DireccionDTO;
 import com.proyeto.hand_craft_verse.dto.VendedorDTO;
 import com.proyeto.hand_craft_verse.dto.Productos.MultimediaDTO;
-import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -85,15 +81,16 @@ public class DtoConverter {
                     .url(multimedia.getUrl())
                     .alt(multimedia.getAlt())
                     .nombreArchivo(multimedia.getNombreArchivo())
+                    .producto(multimedia.getProducto().getId())
                     .build();
         }
     
         public static Multimedia fromMultimediaDTO(MultimediaDTO multimediaDTO) {
-            Multimedia multimedia = new Multimedia();
-            multimedia.setUrl(multimediaDTO.getUrl());
-            multimedia.setAlt(multimediaDTO.getAlt());
-            multimedia.setNombreArchivo(multimediaDTO.getNombreArchivo());
-            return multimedia;
+            return Multimedia.builder()
+                    .url(multimediaDTO.getUrl())
+                    .alt(multimediaDTO.getAlt())
+                    .nombreArchivo(multimediaDTO.getNombreArchivo())
+                    .build();
         }
     
         

@@ -1,5 +1,7 @@
 package com.proyeto.hand_craft_verse.dominio.pedidos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -20,14 +22,12 @@ public class PedidoProducto {
     @EmbeddedId
     private PedidoProductoId id;
     
+    @JsonBackReference
     @ManyToOne
     @MapsId("pedido")
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;  
 
-    
     private int cantidad;
-
-    
 }
 

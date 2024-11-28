@@ -67,13 +67,15 @@ public class Usuario implements UserDetails {
     @Column(nullable = true)
     private int telefono;
 
-    @OneToMany(mappedBy = "cuentaUsuario", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
+    @OneToMany(mappedBy = "cuentaUsuario", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Direccion> direccionesEnvio;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST)
     private List<Comentario> comentarios;
 

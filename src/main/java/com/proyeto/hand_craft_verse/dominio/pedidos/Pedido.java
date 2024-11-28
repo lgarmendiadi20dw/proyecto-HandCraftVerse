@@ -1,5 +1,7 @@
 package com.proyeto.hand_craft_verse.dominio.pedidos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
@@ -30,6 +32,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
@@ -41,10 +44,12 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private EstadoPedido estado;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="direccion")
     private Direccion direccion;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PedidoProducto> pedidoProductos;
 
