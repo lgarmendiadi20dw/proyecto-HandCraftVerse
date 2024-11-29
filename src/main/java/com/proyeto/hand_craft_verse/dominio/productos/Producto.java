@@ -4,10 +4,14 @@ import java.util.List;
 
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,6 +35,7 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = false)
+    @JsonBackReference
     private Vendedor vendedor;
 
     private String nombre;
@@ -42,46 +47,37 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Comentario> comentarios;
 
-    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST})
+    @JsonIgnoreProperties("productosFavoritos")
     private List<Usuario> usuariosFavoritos;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToMany(cascade = { CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(name = "color_producto", joinColumns = @JoinColumn(name = "producto"), inverseJoinColumns = @JoinColumn(name = "color"))
+    @JsonIgnoreProperties("productos")  // Evitar la serialización de la relación circular
     private List<Colore> colores;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Multimedia> multimedias;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-    @JoinTable(name = "producto_categoria", // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "producto_id"), // Clave foránea de la entidad 'Producto'
-            inverseJoinColumns = @JoinColumn(name = "categoria_nombre") // Clave foránea de la entidad 'Categoria'
-    )
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinTable(name = "producto_categoria", 
+               joinColumns = @JoinColumn(name = "producto_id"), 
+               inverseJoinColumns = @JoinColumn(name = "categoria_nombre"))
+    @JsonIgnoreProperties("productos")  // Evitar la serialización de la relación circular
     private List<Categoria> categorias;
 
-    public Producto(Vendedor vendedor, String nombre, float precio, int stock, String descripcion, List<Colore> colores,
-            List<Multimedia> multimedias, List<Categoria> categorias) {
-        this.vendedor = vendedor;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.descripcion = descripcion;
-        this.colores = colores;
-        this.multimedias = multimedias;
-        this.categorias = categorias;
-    }
-
-    public Producto(Vendedor vendedor, String nombre, float precio, int stock, String descripcion, List<Colore> colores,
-            List<Categoria> categorias) {
-        this.vendedor = vendedor;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.colores = colores;
-        this.categorias = categorias;
-    }
-
+    // Si deseas, puedes inicializar colecciones en el constructor o en un método.
+    // public void initializeCollections() {
+    //     if (this.categorias != null) {
+    //         this.categorias.size();  // Inicializar la colección de categorías
+    //     }
+    //     if (this.colores != null) {
+    //         this.colores.size();  // Inicializar la colección de colores
+    //     }
+    // }
 }

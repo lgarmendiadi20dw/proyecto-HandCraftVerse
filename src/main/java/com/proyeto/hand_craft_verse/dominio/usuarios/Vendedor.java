@@ -2,11 +2,14 @@ package com.proyeto.hand_craft_verse.dominio.usuarios;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.rrss.RedesSociales;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -15,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @SuperBuilder
 public class Vendedor extends Usuario{
@@ -24,26 +28,16 @@ public class Vendedor extends Usuario{
     
     private String descripcion;
 
-    @OneToMany(mappedBy = "vendedor")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "vendedor", fetch = FetchType.EAGER)
     private List<RedesSociales> redes_sociales;
 
-    @OneToMany(mappedBy = "vendedor")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "vendedor", fetch = FetchType.EAGER)
     private List<Producto> productos;
     
     
 
-    
-    // public Vendedor(String dni,String username,String nombre,String apellidos,String email,String password, int telefono, String descripcion){
-    //     super( dni, username, nombre, apellidos, email, password, telefono);
-    //     this.num_ventas=0;
-    //     this.descripcion=descripcion;
-    // }
-
-    // public Vendedor(String username,String email,String password, int telefono, String descripcion){
-    //     super( username, email, password, telefono);
-    //     this.num_ventas=0;
-    //     this.descripcion=descripcion;
-    // }
 
     
 }

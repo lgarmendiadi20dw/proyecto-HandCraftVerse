@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.infoBancaria.InfoBancaria;
@@ -47,7 +49,7 @@ public class Usuario implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<UserRoles> roles;
 
-    @Column(unique = true, nullable = true)
+    @Column(unique = true)
     private String dni;
 
     @Column(unique = true, nullable = false)
@@ -67,26 +69,31 @@ public class Usuario implements UserDetails {
     @Column(nullable = true)
     private int telefono;
 
-    @OneToMany(mappedBy = "cuentaUsuario", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
+    @OneToMany(mappedBy = "cuentaUsuario", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Direccion> direccionesEnvio;
 
-    @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pedido> pedidos;
 
-    @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Comentario> comentarios;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToMany(cascade = { CascadeType.PERSIST},  fetch = FetchType.EAGER)
     @JoinTable(name = "favoritos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "producto_id"))
+    @JsonIgnoreProperties("usuariosFavoritos")
+
     private List<Producto> productosFavoritos;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
         name = "usuario_info_bancaria",
         joinColumns = @JoinColumn(name = "usuario_id"),
         inverseJoinColumns = @JoinColumn(name = "info_bancaria_id")
     )
+    @JsonIgnoreProperties("usuarios")
     private List<InfoBancaria> infoBancariaList;
 
     @Override

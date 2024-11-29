@@ -1,5 +1,6 @@
 package com.proyeto.hand_craft_verse.dominio.rrss;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 
 import jakarta.persistence.EmbeddedId;
@@ -22,6 +23,7 @@ public class RedesSociales {
     private RedesSocialesId rrssId;
 
     // Relación ManyToOne con Vendedor
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "vendedor_id", nullable = false)
     private Vendedor vendedor;

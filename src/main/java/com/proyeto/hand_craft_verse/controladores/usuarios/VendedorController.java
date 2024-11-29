@@ -2,6 +2,8 @@ package com.proyeto.hand_craft_verse.controladores.usuarios;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
+import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
+import com.proyeto.hand_craft_verse.dto.VendedorDTO;
+import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 
 @RestController
 @RequestMapping("/member/seller")
@@ -49,13 +54,16 @@ public class VendedorController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Vendedor> addVendedor(@RequestBody Vendedor Vendedor) {
+    public ResponseEntity<Vendedor> addVendedor(@RequestBody VendedorDTO vendedorDto) {
 
         try {
+            Vendedor vendedor = new Vendedor();
+            vendedor=DtoConverter.fromVendedorDTO(vendedorDto);
+            vendedor.setRoles(Stream.of(UserRoles.VENDEDOR, UserRoles.USER).collect(Collectors.toSet()));
 
-            if (aplicacionVendedor.guardar(Vendedor)) {
+            if (aplicacionVendedor.guardar(vendedor)) {
                 return ResponseEntity.status(HttpStatus.CREATED)
-                        .body(Vendedor);
+                        .body(vendedor);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(null);

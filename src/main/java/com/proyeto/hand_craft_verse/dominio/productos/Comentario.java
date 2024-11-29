@@ -1,5 +1,6 @@
 package com.proyeto.hand_craft_verse.dominio.productos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 
 import jakarta.persistence.Entity;
@@ -22,10 +23,12 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "producto") 
     private Producto producto;
 
+    @JsonBackReference
     @ManyToOne  
     @JoinColumn(name = "usuario", nullable = false)
     private Usuario usuario;

@@ -1,6 +1,5 @@
 package com.proyeto.hand_craft_verse.dominio.usuarios;
 
-import java.util.Set;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;

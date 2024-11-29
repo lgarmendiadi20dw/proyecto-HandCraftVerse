@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class PedidoProductoId {
     @ManyToOne
     private Pedido pedido;
-    
     @ManyToOne
     private Producto producto;
 }

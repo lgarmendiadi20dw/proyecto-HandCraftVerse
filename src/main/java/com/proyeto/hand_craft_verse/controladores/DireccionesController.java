@@ -2,6 +2,9 @@ package com.proyeto.hand_craft_verse.controladores;
 
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
+import com.proyeto.hand_craft_verse.dto.DireccionDTO;
+import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +39,10 @@ public class DireccionesController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Direccion> addDireccion(@RequestBody Direccion direccion) {
+    public ResponseEntity<Direccion> addDireccion(@RequestBody DireccionDTO direccionDto) {
         try {
+            Direccion direccion = new Direccion();
+            direccion=DtoConverter.fromDireccionDTO(direccionDto);
             if (aplicacionDireccion.guardar(direccion)) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(direccion);
             } else {

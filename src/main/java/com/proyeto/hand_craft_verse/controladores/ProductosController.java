@@ -7,14 +7,17 @@ import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
-import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
-import com.proyeto.hand_craft_verse.dto.ColoreDTO;
-import com.proyeto.hand_craft_verse.dto.ProductoDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
+import com.proyeto.hand_craft_verse.dto.Converter.ProductoDtoConverter;
+import com.proyeto.hand_craft_verse.dto.Productos.MultimediaDTO;
+import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,9 +53,14 @@ public class ProductosController {
      */
     @GetMapping("/{id}")
     public ProductoDTO viewProduct(@PathVariable int id) {
-        ProductoDTO productoDTO = new ProductoDTO();
-        productoDTO = DtoConverter.fromProducto(aplicacionProducto.buscar(id));
-        return productoDTO;
+        Producto producto = aplicacionProducto.buscar(id);
+        if (producto != null) {
+            Hibernate.initialize(producto.getColores());
+            Hibernate.initialize(producto.getCategorias());
+            Hibernate.initialize(producto.getMultimedias());
+            return ProductoDtoConverter.fromProducto(producto);
+        }
+        return null;
     }
 
     /**
@@ -61,14 +69,27 @@ public class ProductosController {
      * @param id El ID del producto a eliminar.
      * @return Una respuesta HTTP indicando el resultado de la operación.
      */
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
+
+  @DeleteMapping("/delete/{id}")
+@Transactional
+public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
+    Producto producto = aplicacionProducto.buscar(id);
+    if (producto != null) {
+        // Inicializar la colección 'categorias' para evitar LazyInitializationException
+        Hibernate.initialize(producto.getCategorias());
+
+        // Eliminar asociaciones de categorías si existen
+        if (producto.getCategorias() != null) {
+            producto.getCategorias().clear();
+        }
+
+        // Eliminar el producto
         if (aplicacionProducto.eliminar(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+}
 
     /**
      * Método para crear un nuevo producto.
@@ -76,11 +97,14 @@ public class ProductosController {
      * @param productoDTO El DTO del producto a crear.
      * @return Una respuesta HTTP con el producto creado o un error.
      */
-   @PostMapping("/create")
+    @PostMapping("/create")
+    // @PreAuthorize("hasRole('VENDEDOR')")
     public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO productoDTO) {
+        // public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO
+        // productoDTO, @AuthenticationPrincipal Vendedor user) {
         try {
 
-            Producto prueba = DtoConverter.fromProductoDTO(productoDTO);
+            Producto prueba = ProductoDtoConverter.fromProductoDTO(productoDTO);
             Vendedor vendedor = aplicacionVendedor.buscar(productoDTO.getVendedorId());
             List<Colore> colores = new ArrayList<>();
             for (String coloreDTO : productoDTO.getColores()) {
@@ -91,8 +115,8 @@ public class ProductosController {
             for (String categoriaDTO : productoDTO.getCategorias()) {
                 categorias.add(aplicacionCategoria.buscar(categoriaDTO));
             }
-            
-            
+            prueba.getMultimedias().forEach(multimedia -> multimedia.setProducto(prueba));
+
             prueba.setColores(colores);
             prueba.setCategorias(categorias);
             if (vendedor == null) {
@@ -119,6 +143,7 @@ public class ProductosController {
      * @return Una respuesta HTTP indicando el resultado de la operación.
      */
     @PutMapping("/update/{id}")
+    @Transactional
     public ResponseEntity<Void> updateProduct(@PathVariable int id, @RequestBody Producto producto) {
         Producto existingProduct = aplicacionProducto.buscar(id);
         if (existingProduct != null) {
@@ -150,7 +175,7 @@ public class ProductosController {
     public List<ProductoDTO> verProductoesList() {
         List<ProductoDTO> productosDto = new ArrayList<>();
         for (Producto producto : aplicacionProducto.obtenerTodos()) {
-            productosDto.add(DtoConverter.fromProducto(producto));
+            productosDto.add(ProductoDtoConverter.fromProducto(producto));
         }
         return productosDto;
     }
@@ -166,14 +191,25 @@ public class ProductosController {
     public List<ProductoDTO> getProductsByCategory(@PathVariable String nombre) {
         List<ProductoDTO> productosDto = new ArrayList<>();
 
-        // Usamos obtenerPorColeccion para filtrar productos por la categoría
-        // especificada
         List<Producto> productos = aplicacionProducto.obtenerPorColeccion("categorias", "nombre", nombre);
 
         for (Producto producto : productos) {
-            productosDto.add(DtoConverter.fromProducto(producto));
+            productosDto.add(ProductoDtoConverter.fromProducto(producto));
         }
 
         return productosDto;
     }
+
+    @GetMapping("/{id}/multimedia")
+    public List<MultimediaDTO> getProductMultimedia(@PathVariable int id) {
+
+        List<MultimediaDTO> multimediaDTO = new ArrayList<>();
+        List<Multimedia> multimediaList = aplicacionMultimedia.obtenerPorColeccion("producto", "id", id);
+        for (Multimedia multimedia : multimediaList) {
+
+            multimediaDTO.add(DtoConverter.fromMultimedia(multimedia));
+        }
+        return multimediaDTO;
+    }
+
 }

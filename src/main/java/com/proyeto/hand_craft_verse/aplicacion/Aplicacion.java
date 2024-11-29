@@ -85,7 +85,7 @@ public class Aplicacion<T> implements IAplicacion<T> {
      * @param value El valor del atributo a filtrar.
      * @return Lista de entidades T que cumplen con el filtro.
      */
-    public List<T> obtenerPorColeccion(String collectionName, String attributeName, String value) {
+    public List<T> obtenerPorColeccion(String collectionName, String attributeName, Object value) {
         return persistencia.obtenerPorColeccion(collectionName, attributeName, value);
     } 
 }
