@@ -31,42 +31,41 @@ public class UserDtoConverter {
         return respuesta;
     }
 
-    public  Admin toAdminUser(UserRegisterDto usuarioDTO)
-    {
-        Admin respuesta = 
-        // new Admin(usuarioDTO.getUsername(),usuarioDTO.getEmail(),passwordEncoder.encode(usuarioDTO.getPassword()).
-        // roles(Stream.of(UserRoles.ADMIN).collect(Collectors.toSet())));
-        
-        Admin.builder().
-                                username(usuarioDTO.getUsername()).
-                                password(passwordEncoder.encode(usuarioDTO.getPassword())).
-                                email(usuarioDTO.getEmail()).
-                                roles(Stream.of(UserRoles.USER,UserRoles.ADMIN).collect(Collectors.toSet())).
-                                //para los vendedores -> roles(Stream.of(UserRoles.USER, UserRoles.VENDEDOR).collect(Collectors.toSet())).
-                                build();
-        
+    public Admin toAdminUser(UserRegisterDto usuarioDTO) {
+        Admin respuesta =
+                // new
+                // Admin(usuarioDTO.getUsername(),usuarioDTO.getEmail(),passwordEncoder.encode(usuarioDTO.getPassword()).
+                // roles(Stream.of(UserRoles.ADMIN).collect(Collectors.toSet())));
 
-                                    
+                Admin.builder().username(usuarioDTO.getUsername())
+                        .password(passwordEncoder.encode(usuarioDTO.getPassword())).email(usuarioDTO.getEmail())
+                        .roles(Stream.of(UserRoles.ADMIN).collect(Collectors.toSet())).
+                        // para los vendedores -> roles(Stream.of(UserRoles.USER,
+                        // UserRoles.VENDEDOR).collect(Collectors.toSet())).
+                        build();
 
         return respuesta;
     }
 
-    public  Vendedor toVendedorUser(UserRegisterDto usuarioDTO)
-    {
-        Vendedor respuesta = 
-        // new Vendedor(usuarioDTO.getUsername(),usuarioDTO.getEmail(),passwordEncoder.encode(usuarioDTO.getPassword()).
-        // roles(Stream.of(UserRoles.Vendedor).collect(Collectors.toSet())));
-        
-        Vendedor.builder().
-                                username(usuarioDTO.getUsername()).
-                                password(passwordEncoder.encode(usuarioDTO.getPassword())).
-                                email(usuarioDTO.getEmail()).
-                                roles(Stream.of( UserRoles.USER,UserRoles.VENDEDOR).collect(Collectors.toSet())).
-                                //para los vendedores -> roles(Stream.of(UserRoles.USER, UserRoles.VENDEDOR).collect(Collectors.toSet())).
-                                build();
-        
+    public Vendedor toVendedorUser(UserRegisterDto usuarioDTO) {
+        Vendedor respuesta =
+                // new
+                // Vendedor(usuarioDTO.getUsername(),usuarioDTO.getEmail(),passwordEncoder.encode(usuarioDTO.getPassword()).
+                // roles(Stream.of(UserRoles.Vendedor).collect(Collectors.toSet())));
 
-                                    
+                Vendedor.builder().username(usuarioDTO.getUsername())
+                        .password(passwordEncoder.encode(usuarioDTO.getPassword())).email(usuarioDTO.getEmail())
+                        .roles(Stream.of(UserRoles.VENDEDOR).collect(Collectors.toSet())).
+                        // para los vendedores -> roles(Stream.of(UserRoles.USER,
+                        // UserRoles.VENDEDOR).collect(Collectors.toSet())).
+                        build();
+
+        return respuesta;
+    }
+
+    public UserGetDto toUserGetDto(Usuario usuario) {
+        UserGetDto respuesta = UserGetDto.builder().username(usuario.getUsername()).email(usuario.getEmail())
+                .roles(usuario.getRoles().toString()).build();
 
         return respuesta;
     }
