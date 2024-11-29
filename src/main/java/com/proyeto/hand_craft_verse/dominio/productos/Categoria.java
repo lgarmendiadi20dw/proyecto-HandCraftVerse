@@ -1,6 +1,7 @@
 package com.proyeto.hand_craft_verse.dominio.productos;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class Categoria {
 
     private String descripcion;
 
-    @ManyToMany(mappedBy = "categorias")
+    @ManyToMany(mappedBy = "categorias", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("categorias")
     private List<Producto> productos;
 }

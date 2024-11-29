@@ -7,6 +7,7 @@ import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.rrss.RedesSociales;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,11 +29,11 @@ public class Vendedor extends Usuario{
     private String descripcion;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", fetch = FetchType.EAGER)
     private List<RedesSociales> redes_sociales;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor", fetch = FetchType.EAGER)
     private List<Producto> productos;
     
     

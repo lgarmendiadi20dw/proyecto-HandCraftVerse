@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,23 +47,24 @@ public class Producto {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Comentario> comentarios;
 
-    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST})
+    @JsonIgnoreProperties("productosFavoritos")
     private List<Usuario> usuariosFavoritos;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @ManyToMany(cascade = { CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(name = "color_producto", joinColumns = @JoinColumn(name = "producto"), inverseJoinColumns = @JoinColumn(name = "color"))
     @JsonIgnoreProperties("productos")  // Evitar la serialización de la relación circular
     private List<Colore> colores;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Multimedia> multimedias;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinTable(name = "producto_categoria", 
                joinColumns = @JoinColumn(name = "producto_id"), 
                inverseJoinColumns = @JoinColumn(name = "categoria_nombre"))
@@ -70,12 +72,12 @@ public class Producto {
     private List<Categoria> categorias;
 
     // Si deseas, puedes inicializar colecciones en el constructor o en un método.
-    public void initializeCollections() {
-        if (this.categorias != null) {
-            this.categorias.size();  // Inicializar la colección de categorías
-        }
-        if (this.colores != null) {
-            this.colores.size();  // Inicializar la colección de colores
-        }
-    }
+    // public void initializeCollections() {
+    //     if (this.categorias != null) {
+    //         this.categorias.size();  // Inicializar la colección de categorías
+    //     }
+    //     if (this.colores != null) {
+    //         this.colores.size();  // Inicializar la colección de colores
+    //     }
+    // }
 }

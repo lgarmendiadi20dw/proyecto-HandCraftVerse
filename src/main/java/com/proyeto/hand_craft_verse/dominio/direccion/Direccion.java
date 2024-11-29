@@ -10,6 +10,7 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,7 +48,7 @@ public class Direccion {
     private String destinatario;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "direccion")
+    @OneToMany(mappedBy = "direccion", fetch = FetchType.EAGER)
     private List<Pedido> pedidos;
 
     @Enumerated(EnumType.STRING)
