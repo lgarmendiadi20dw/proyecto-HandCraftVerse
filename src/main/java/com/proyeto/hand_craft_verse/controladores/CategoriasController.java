@@ -36,8 +36,9 @@ public class CategoriasController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Categoria> addCategoria(@RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> addCategoria(@RequestBody CategoriaDTO categoriaDto) {
         try {
+            Categoria categoria = DtoConverter.fromCategoriaDTO(categoriaDto);
             if (aplicacionCategoria.guardar(categoria)) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
             } else {

@@ -115,8 +115,7 @@ public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
             for (String categoriaDTO : productoDTO.getCategorias()) {
                 categorias.add(aplicacionCategoria.buscar(categoriaDTO));
             }
-            prueba.getMultimedias().forEach(multimedia -> multimedia.setProducto(prueba));
-
+            
             prueba.setColores(colores);
             prueba.setCategorias(categorias);
             if (vendedor == null) {
