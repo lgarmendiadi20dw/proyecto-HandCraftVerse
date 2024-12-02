@@ -26,7 +26,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -41,7 +40,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.AuthenticationManager;
 
 @RestController
 @AllArgsConstructor
@@ -61,20 +59,19 @@ public class UsuariosController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/registrar")
-    public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
+    public ResponseEntity<?> registrar(@RequestBody UserRegisterDto user, HttpServletResponse response) {
         UserGetDto toReturn = aplicacionUsuario.guardar(user);
         if (toReturn != null) {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(toReturn);
-
+            // Llamar al método login
+            LoginDTO loginDto = new LoginDTO();
+            loginDto.setUsername(user.getUsername());
+            loginDto.setPassword(user.getPassword());
+            return login(loginDto, response);
         } else {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(null);
         }
     }
-
-   
 
     @GetMapping("/{id}")
     public UsuarioDTO viewMyPorfile(@PathVariable int id) {
