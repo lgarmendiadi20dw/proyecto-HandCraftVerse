@@ -70,26 +70,26 @@ public class ProductosController {
      * @return Una respuesta HTTP indicando el resultado de la operación.
      */
 
-  @DeleteMapping("/delete/{id}")
-@Transactional
-public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
-    Producto producto = aplicacionProducto.buscar(id);
-    if (producto != null) {
-        // Inicializar la colección 'categorias' para evitar LazyInitializationException
-        Hibernate.initialize(producto.getCategorias());
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
+        Producto producto = aplicacionProducto.buscar(id);
+        if (producto != null) {
+            // Inicializar la colección 'categorias' para evitar LazyInitializationException
+            Hibernate.initialize(producto.getCategorias());
 
-        // Eliminar asociaciones de categorías si existen
-        if (producto.getCategorias() != null) {
-            producto.getCategorias().clear();
-        }
+            // Eliminar asociaciones de categorías si existen
+            if (producto.getCategorias() != null) {
+                producto.getCategorias().clear();
+            }
 
-        // Eliminar el producto
-        if (aplicacionProducto.eliminar(id)) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            // Eliminar el producto
+            if (aplicacionProducto.eliminar(id)) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            }
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-}
 
     /**
      * Método para crear un nuevo producto.
@@ -99,12 +99,13 @@ public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
      */
     @PostMapping("/create")
     // @PreAuthorize("hasRole('VENDEDOR')")
+    // public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO
+    // productoDTO, @AuthenticationPrincipal Vendedor user) {
     public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO productoDTO) {
-        // public ResponseEntity<Producto> addProduct(@RequestBody ProductoDTO
-        // productoDTO, @AuthenticationPrincipal Vendedor user) {
+
         try {
 
-            Producto prueba = ProductoDtoConverter.fromProductoDTO(productoDTO);
+            Producto producto = ProductoDtoConverter.fromProductoDTO(productoDTO);
             Vendedor vendedor = aplicacionVendedor.buscar(productoDTO.getVendedorId());
             List<Colore> colores = new ArrayList<>();
             for (String coloreDTO : productoDTO.getColores()) {
@@ -115,18 +116,18 @@ public ResponseEntity<Void> deleteProductById(@PathVariable int id) {
             for (String categoriaDTO : productoDTO.getCategorias()) {
                 categorias.add(aplicacionCategoria.buscar(categoriaDTO));
             }
-            prueba.getMultimedias().forEach(multimedia -> multimedia.setProducto(prueba));
+            producto.getMultimedias().forEach(multimedia -> multimedia.setProducto(producto));
 
-            prueba.setColores(colores);
-            prueba.setCategorias(categorias);
+            producto.setColores(colores);
+            producto.setCategorias(categorias);
             if (vendedor == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Vendedor no encontrado
             }
 
-            prueba.setVendedor(vendedor); // Establecer el vendedor encontrado
+            producto.setVendedor(vendedor); // Establecer el vendedor encontrado
 
-            if (aplicacionProducto.guardar(prueba)) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(prueba);
+            if (aplicacionProducto.guardar(producto)) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(producto);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }

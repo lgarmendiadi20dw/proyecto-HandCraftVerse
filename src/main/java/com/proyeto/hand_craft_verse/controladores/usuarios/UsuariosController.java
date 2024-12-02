@@ -61,20 +61,19 @@ public class UsuariosController {
     private JwtTokenProvider tokenProvider;
 
     @PostMapping("/registrar")
-    public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
+    public ResponseEntity<?> registrar(@RequestBody UserRegisterDto user, HttpServletResponse response) {
         UserGetDto toReturn = aplicacionUsuario.guardar(user);
         if (toReturn != null) {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(toReturn);
-
+            // Llamar al método login
+            LoginDTO loginDto = new LoginDTO();
+            loginDto.setUsername(user.getUsername());
+            loginDto.setPassword(user.getPassword());
+            return login(loginDto, response);
         } else {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(null);
         }
     }
-
-   
 
     @GetMapping("/{id}")
     public UsuarioDTO viewMyPorfile(@PathVariable int id) {
