@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 import com.proyeto.hand_craft_verse.dto.VendedorDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
+import com.proyeto.hand_craft_verse.dto.Converter.ProductoDtoConverter;
+import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
 
 @RestController
 @RequestMapping("/member/seller")
@@ -79,7 +83,7 @@ public class VendedorController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Vendedor entity) {
+    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody Vendedor entity) {
 
         if (aplicacionVendedor.actualizar(entity) != null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
@@ -101,5 +105,17 @@ public class VendedorController {
     @GetMapping("/allData")
     public List<Vendedor> verVendedoresListAll() {
         return aplicacionVendedor.obtenerTodos();
+    }
+
+    @GetMapping("/{id}/productos")
+    public List<ProductoDTO> verProductosUsuario(@PathVariable int id) {
+        Vendedor usuario = aplicacionVendedor.buscar(id);
+
+        List<ProductoDTO> productos = usuario.getProductos().stream()
+                .map(producto -> ProductoDtoConverter.fromProducto(producto))
+                .collect(Collectors.toList());
+
+                return productos;
+       
     }
 }

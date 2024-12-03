@@ -72,6 +72,8 @@ public class UserDtoConverter {
 
     public UsuarioDTO fromUsuarioToUsuarioDTO(Usuario usuario) {
         UsuarioDTO respuesta = UsuarioDTO.builder()
+                .id(usuario.getId())
+                .dni(usuario.getDni())
                 .nombre(usuario.getNombre())
                 .apellidos(usuario.getApellidos())
                 .username(usuario.getUsername())
