@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @AllArgsConstructor
@@ -99,6 +101,7 @@ public class UsuariosController {
     @PreAuthorize("isAuthenticated()")
     public UsuarioDTO getMethodName3(@AuthenticationPrincipal Usuario usuario) {
 
+        
         return userDtoConverter.fromUsuarioToUsuarioDTO(usuario);
 
     }
@@ -135,9 +138,11 @@ public class UsuariosController {
         }
 
     }
+   
+    
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Usuario entity) {
+    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody Usuario entity) {
 
         Usuario Usuario = aplicacionUsuario.buscar(id);
         Usuario.setNombre(entity.getNombre());
