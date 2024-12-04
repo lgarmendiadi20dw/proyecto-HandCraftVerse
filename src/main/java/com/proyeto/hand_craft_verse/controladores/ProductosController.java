@@ -200,6 +200,8 @@ public class ProductosController {
         return productosDto;
     }
 
+    
+
     @GetMapping("/{id}/multimedia")
     public List<MultimediaDTO> getProductMultimedia(@PathVariable int id) {
 

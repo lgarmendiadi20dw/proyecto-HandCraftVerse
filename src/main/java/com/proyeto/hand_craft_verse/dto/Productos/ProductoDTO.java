@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +14,7 @@ import java.util.List;
 public class ProductoDTO {
     private int id;
     private int vendedorId;
+    private String vendedorNombre;
     private String nombre;
     private float precio;
     private int stock;

@@ -1,11 +1,9 @@
 package com.proyeto.hand_craft_verse.dto.Converter;
 
-import com.proyeto.hand_craft_verse.aplicacion.Aplicacion;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
-import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
 import com.proyeto.hand_craft_verse.dto.ColoreDTO;

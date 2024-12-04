@@ -15,6 +15,7 @@ public class ProductoDtoConverter {
         ProductoDTO productoDTO = ProductoDTO.builder()
                 .id(producto.getId())
                 .vendedorId(producto.getVendedor().getId())
+                .vendedorNombre(producto.getVendedor().getUsername())
                 .nombre(producto.getNombre())
                 .precio(producto.getPrecio())
                 .stock(producto.getStock())
