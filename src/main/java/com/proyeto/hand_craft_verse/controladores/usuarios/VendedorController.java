@@ -22,12 +22,14 @@ import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.proyeto.hand_craft_verse.dto.LoginDTO;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 import com.proyeto.hand_craft_verse.dto.VendedorDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 import com.proyeto.hand_craft_verse.dto.Converter.ProductoDtoConverter;
 import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/member/seller")
@@ -37,21 +39,25 @@ public class VendedorController {
 
     @Autowired
     private AplicacionUsuario aplicacionUsuario;
+    @Autowired
+    private UsuariosController usuariosController;
 
     @GetMapping("/{id}")
     public Vendedor viewMyPorfile(@PathVariable int id) {
         return aplicacionVendedor.buscar(id);
     }
 
+
     @PostMapping("/registrar")
-    public ResponseEntity<UserGetDto> registrar(@RequestBody UserRegisterDto user) {
+    public ResponseEntity<?> registrar(@RequestBody UserRegisterDto user, HttpServletResponse response) {
         UserGetDto toReturn = aplicacionUsuario.guardarVendedor(user);
         if (toReturn != null) {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(toReturn);
-
+            // Llamar al método login
+            LoginDTO loginDto = new LoginDTO();
+            loginDto.setUsername(user.getUsername());
+            loginDto.setPassword(user.getPassword());
+            return usuariosController.login(loginDto, response);
         } else {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(null);
         }

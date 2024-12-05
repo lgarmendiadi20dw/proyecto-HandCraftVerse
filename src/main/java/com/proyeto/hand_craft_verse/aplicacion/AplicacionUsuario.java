@@ -57,7 +57,7 @@ public class AplicacionUsuario extends Aplicacion<Usuario> {
                     usuario.getEmail().compareTo(usuario.getEmailConfirm()) == 0) {
 
                 usuarioADevolver = userDtoConverter.toAdminUser(usuario);
-
+                usuarioADevolver.setImagen("userIcon.webp");
                 if (persistencia.guardar(usuarioADevolver)) {
                     return userDtoConverter.toUserGetDto(usuarioADevolver);
                 } else {
@@ -82,7 +82,7 @@ public class AplicacionUsuario extends Aplicacion<Usuario> {
                     usuario.getEmail().compareTo(usuario.getEmailConfirm()) == 0) {
 
                 usuarioADevolver = userDtoConverter.toVendedorUser(usuario);
-
+                usuarioADevolver.setImagen("userIcon.webp");
                 if (persistencia.guardar(usuarioADevolver)) {
                     return userDtoConverter.toUserGetDto(usuarioADevolver);
                 } else {

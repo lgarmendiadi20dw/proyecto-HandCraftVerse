@@ -27,7 +27,10 @@ target/
 /.nb-gradle/
 build/
 !**/src/main/**/build/
+!**/src/main/resources/hibernate.cfg.xml
+!**/src/main/resources/application.properties
 !**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
+
