@@ -214,4 +214,26 @@ public class ProductosController {
         return multimediaDTO;
     }
 
+    /**
+ * Método para buscar productos por un campo específico.
+ * 
+ * @param campo El campo por el que se va a hacer la búsqueda (por ejemplo, 'nombre').
+ * @param query El valor a buscar.
+ * @return Una lista de productos que coinciden con el término de búsqueda.
+ */
+@GetMapping("/buscar")
+public List<ProductoDTO> searchProducts(@RequestParam String campo, @RequestParam String query) {
+    List<ProductoDTO> productosDto = new ArrayList<>();
+    
+    // Llamar al método genérico de búsqueda
+    List<Producto> productos = aplicacionProducto.buscarPorCampo(campo, query);
+    
+    // Convertir los productos encontrados a ProductoDTO y agregarlos a la lista
+    for (Producto producto : productos) {
+        productosDto.add(ProductoDtoConverter.fromProducto(producto));
+    }
+
+    return productosDto;
+}
+
 }

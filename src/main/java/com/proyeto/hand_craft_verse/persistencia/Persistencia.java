@@ -4,6 +4,8 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -155,5 +157,21 @@ public class Persistencia<T> implements IPersistencia<T> {
                 .setParameter("value", value)
                 .list();
     }
+
+    @Override
+    public List<T> buscarPorCampo(String campo, String valor) {
+        Session session = sessionFactory.openSession();
+        try {
+            // HQL dinámico para buscar en el campo especificado
+            String hql = "from " + classType.getName() + " where lower(" + campo + ") like lower(:valor)";
+            return session.createQuery(hql, classType)
+                    .setParameter("valor", "%" + valor + "%")
+                    .list();
+        } finally {
+            session.close();
+        }
+    }
+    
+
 
 }

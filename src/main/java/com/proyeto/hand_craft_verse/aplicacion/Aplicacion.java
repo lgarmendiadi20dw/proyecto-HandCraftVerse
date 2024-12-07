@@ -88,4 +88,7 @@ public class Aplicacion<T> implements IAplicacion<T> {
     public List<T> obtenerPorColeccion(String collectionName, String attributeName, Object value) {
         return persistencia.obtenerPorColeccion(collectionName, attributeName, value);
     } 
+    public List<T> buscarPorCampo(String campo, String valor) {
+        return persistencia.buscarPorCampo(campo, valor);
+    }
 }

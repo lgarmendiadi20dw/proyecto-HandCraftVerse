@@ -2,6 +2,8 @@ package com.proyeto.hand_craft_verse.aplicacion;
 
 import java.util.List;
 
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
+
 public interface IAplicacion<T> {
 
     public boolean guardar(T t);
@@ -19,6 +21,8 @@ public interface IAplicacion<T> {
     public T actualizar(T t);
 
     public List<T> obtenerPorColeccion(String collectionName, String attributeName, Object nombre);
+
+    public List<T> buscarPorCampo(String campo, String query);
     
 
 }
