@@ -61,6 +61,7 @@ public class Persistencia<T> implements IPersistencia<T> {
             session.getTransaction().commit();
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
             return false;
         } finally {
