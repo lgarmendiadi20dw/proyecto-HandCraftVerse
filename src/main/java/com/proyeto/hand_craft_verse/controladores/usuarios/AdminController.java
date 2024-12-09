@@ -45,39 +45,8 @@ public class AdminController {
         return aplicacionAdmin.buscar(id);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Admin> addAdmin(@RequestBody Admin Admin) {
+   
 
-        try {
-
-            if (aplicacionAdmin.guardar(Admin)) {
-                return ResponseEntity.status(HttpStatus.CREATED)
-                        .body(Admin);
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(null);
-            }
-
-        } catch (Exception e) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
-
-        }
-
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Void> putMethodName(@PathVariable int id, @RequestBody Admin entity) {
-
-        if (aplicacionAdmin.actualizar(entity) != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
-    }
 
     @GetMapping("/all")
     public List<Admin> verAdminesList() {

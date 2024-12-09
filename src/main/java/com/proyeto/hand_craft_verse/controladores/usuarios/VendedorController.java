@@ -88,25 +88,7 @@ public class VendedorController {
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody Vendedor entity) {
-
-        if (aplicacionVendedor.actualizar(entity) != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
-    }
-
-    @GetMapping("/all")
-    public List<Map<String, Object>> verVendedoresList() {
-        return aplicacionVendedor.obtenerDatosColumnas("id", "username")
-                .stream()
-                .map(fila -> Map.of("id", fila[0], "username", fila[1]))
-                .toList();
-    }
+   
 
     @GetMapping("/allData")
     public List<Vendedor> verVendedoresListAll() {
