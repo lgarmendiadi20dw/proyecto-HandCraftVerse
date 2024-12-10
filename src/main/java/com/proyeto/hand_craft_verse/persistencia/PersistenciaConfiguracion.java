@@ -1,10 +1,10 @@
 package com.proyeto.hand_craft_verse.persistencia;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.context.annotation.Bean;
 
+import com.proyeto.hand_craft_verse.dominio.Dibujo;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.direccion.TipoDireccion;
 import com.proyeto.hand_craft_verse.dominio.infoBancaria.InfoBancaria;
@@ -30,6 +30,10 @@ public class PersistenciaConfiguracion {
     @Bean
     public IPersistencia<Usuario> getPersistenciaUsuario(SessionFactory session) {
         return new Persistencia<Usuario>(session, Usuario.class);
+    }
+    @Bean
+    public IPersistencia<Dibujo> getPersistenciaDibujo(SessionFactory session) {
+        return new Persistencia<Dibujo>(session, Dibujo.class);
     }
 
     @Bean
@@ -119,6 +123,7 @@ public class PersistenciaConfiguracion {
                 .addAnnotatedClass(InfoBancaria.class)
                 .addAnnotatedClass(Tarjeta.class)
                 .addAnnotatedClass(Paypal.class)
+                .addAnnotatedClass(Dibujo.class)
                 .buildSessionFactory();
 
         return factory;

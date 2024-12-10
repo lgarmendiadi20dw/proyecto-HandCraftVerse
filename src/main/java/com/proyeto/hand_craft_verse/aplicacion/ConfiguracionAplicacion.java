@@ -5,6 +5,7 @@ package com.proyeto.hand_craft_verse.aplicacion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.proyeto.hand_craft_verse.dominio.Dibujo;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.pedidos.Pedido;
 import com.proyeto.hand_craft_verse.dominio.pedidos.PedidoProducto;
@@ -107,6 +108,11 @@ public class ConfiguracionAplicacion {
     }
 
 
+    @Bean
+    public IAplicacion<Dibujo> getAplicacionDibujo(IPersistencia<Dibujo> persistenciaDibujo)
+    {
+        return new Aplicacion<Dibujo>(persistenciaDibujo);
+    }
    
     
 }
