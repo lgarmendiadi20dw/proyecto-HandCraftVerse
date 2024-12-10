@@ -48,6 +48,69 @@ public class CategoriasController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
+    @PostMapping("/createAllDefault")
+public ResponseEntity<List<Categoria>> addDefaultCategorias() {
+    try {
+        // Lista de categorías por defecto
+        List<CategoriaDTO> categoriasDto = List.of(
+            CategoriaDTO.builder()
+                .nombre("Decoración para el hogar")
+                .descripcion("Accesorios y piezas únicas para embellecer tu hogar, como cuadros, cerámica y lámparas artesanales.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Joyería y accesorios")
+                .descripcion("Collares, pulseras, anillos y otros accesorios hechos a mano con materiales únicos.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Ropa y textiles")
+                .descripcion("Prendas de vestir, bufandas, bolsos y mantas elaboradas artesanalmente.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Arte y pintura")
+                .descripcion("Obras de arte originales como cuadros, ilustraciones y esculturas hechas a mano.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Muebles y carpintería")
+                .descripcion("Mesas, sillas, estanterías y otros muebles diseñados con un toque artesanal.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Juguetes y juegos")
+                .descripcion("Juguetes educativos y juegos hechos a mano, ideales para niños y adultos.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Cerámica y vidrio")
+                .descripcion("Vajillas, jarrones y artículos decorativos hechos de cerámica o vidrio soplado.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Papelería y libros")
+                .descripcion("Cuadernos, agendas, tarjetas de felicitación y libros únicos hechos a mano.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Cuidado personal")
+                .descripcion("Jabones, velas, cosméticos y otros productos artesanales para el cuidado personal.")
+                .build(),
+            CategoriaDTO.builder()
+                .nombre("Gastronomía y bebidas")
+                .descripcion("Productos gourmet como mermeladas, chocolates, especias y licores hechos a mano.")
+                .build()
+        );
+
+        // Convertimos las categorías DTO en entidades y las guardamos
+        List<Categoria> categorias = categoriasDto.stream()
+                .map(DtoConverter::fromCategoriaDTO)
+                .filter(aplicacionCategoria::guardar) // Guardar y filtrar las que se guardan con éxito
+                .toList();
+
+        if (!categorias.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(categorias);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+}
+
 
     @PutMapping("/update/{nombre}")
     public ResponseEntity<Void> updateCategoria(@PathVariable String nombre, @RequestBody Categoria categoria) {

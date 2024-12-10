@@ -48,8 +48,8 @@ public class SecurityConf {
 
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.GET, "/member/**").authenticated()
-                        // .requestMatchers(HttpMethod.POST, "/productos/create").hasRole("VENDEDOR")
+                        .requestMatchers(HttpMethod.GET, "/member/admin/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/productos/create").hasRole("VENDEDOR")
                         // .requestMatchers("/security/**").hasAnyRole("ADMIN","USER")
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
