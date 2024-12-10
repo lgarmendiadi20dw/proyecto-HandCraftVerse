@@ -61,7 +61,7 @@ public class PedidosController {
             existingPedido.setCosteTotal(pedido.getCosteTotal());
             existingPedido.setPedidoProductos(pedido.getPedidoProductos()); // Asegúrate de que se maneje correctamente
 
-            if (aplicacionPedido.actualizar(existingPedido) != null) {
+            if (aplicacionPedido.actualizar(existingPedido) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -77,7 +77,7 @@ public class PedidosController {
         if (existingPedido != null) {
             existingPedido.setEstado(nuevoEstado);
 
-            if (aplicacionPedido.actualizar(existingPedido) != null) {
+            if (aplicacionPedido.actualizar(existingPedido) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

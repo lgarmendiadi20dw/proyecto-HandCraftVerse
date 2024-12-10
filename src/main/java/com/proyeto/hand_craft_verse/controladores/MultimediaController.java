@@ -72,7 +72,7 @@ public ResponseEntity<Multimedia> addMultimedia(@RequestBody MultimediaDTO multi
             existingMultimedia.setNombreArchivo(multimedia.getNombreArchivo());
             existingMultimedia.setProducto(multimedia.getProducto());
 
-            if (aplicacionMultimedia.actualizar(existingMultimedia) != null) {
+            if (aplicacionMultimedia.actualizar(existingMultimedia) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

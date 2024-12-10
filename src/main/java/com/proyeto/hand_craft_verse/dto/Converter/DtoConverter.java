@@ -1,9 +1,11 @@
 package com.proyeto.hand_craft_verse.dto.Converter;
 
+import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.CategoriaDTO;
 import com.proyeto.hand_craft_verse.dto.ColoreDTO;
@@ -11,11 +13,15 @@ import com.proyeto.hand_craft_verse.dto.DireccionDTO;
 import com.proyeto.hand_craft_verse.dto.VendedorDTO;
 import com.proyeto.hand_craft_verse.dto.Productos.MultimediaDTO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DtoConverter {
+    
 
+    @Autowired
+    static IAplicacion<Producto> aplicacionProducto;
     
         public static VendedorDTO fromVendedor(Vendedor vendedor) {
             return VendedorDTO.builder()
@@ -88,6 +94,7 @@ public class DtoConverter {
                     .url(multimediaDTO.getUrl())
                     .alt(multimediaDTO.getAlt())
                     .nombreArchivo(multimediaDTO.getNombreArchivo())
+                    .producto(aplicacionProducto.buscar(multimediaDTO.getProducto()))
                     .build();
         }
     

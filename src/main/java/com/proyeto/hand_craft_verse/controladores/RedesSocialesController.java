@@ -63,7 +63,7 @@ public class RedesSocialesController {
             existingRrss.setVendedor(redesSociales.getVendedor()); // Actualiza el vendedor
             // Aquí puedes agregar más campos si es necesario
 
-            if (aplicacionRedesSociales.actualizar(existingRrss) != null) {
+            if (aplicacionRedesSociales.actualizar(existingRrss) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

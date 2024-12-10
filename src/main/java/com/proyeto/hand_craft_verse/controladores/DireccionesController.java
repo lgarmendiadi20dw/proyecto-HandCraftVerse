@@ -66,7 +66,7 @@ public class DireccionesController {
             existingDireccion.setDestinatario(direccion.getDestinatario());
             existingDireccion.setTipoDireccion(direccion.getTipoDireccion());
 
-            if (aplicacionDireccion.actualizar(existingDireccion) != null) {
+            if (aplicacionDireccion.actualizar(existingDireccion) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

@@ -23,6 +23,22 @@ public class Aplicacion<T> implements IAplicacion<T> {
         
     }
 
+    @Override
+    public boolean actualizar(T t) {
+        
+        // if(persistencia.actualizar(t))
+        // {
+        //     return t;
+        // }
+        // return null;
+        try{
+            return persistencia.actualizar(t);
+        }
+        catch(Exception e){
+            return false;
+        }
+        
+    }
 
     @Override
     public T buscar(Object id) {
@@ -55,15 +71,6 @@ public class Aplicacion<T> implements IAplicacion<T> {
         return persistencia.obtenerTodos();
     }
 
-    @Override
-    public T actualizar(T t) {
-        
-        if(persistencia.actualizar(t))
-        {
-            return t;
-        }
-        return null;
-    }
 
 
     @Override

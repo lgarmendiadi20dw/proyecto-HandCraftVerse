@@ -119,7 +119,7 @@ public ResponseEntity<List<Categoria>> addDefaultCategorias() {
             existingCategoria.setDescripcion(categoria.getDescripcion());
             // No se puede actualizar el nombre, ya que es la clave primaria
 
-            if (aplicacionCategoria.actualizar(existingCategoria) != null) {
+            if (aplicacionCategoria.actualizar(existingCategoria)) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

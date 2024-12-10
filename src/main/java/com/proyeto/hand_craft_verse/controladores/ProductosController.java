@@ -58,6 +58,7 @@ public class ProductosController {
             Hibernate.initialize(producto.getColores());
             Hibernate.initialize(producto.getCategorias());
             Hibernate.initialize(producto.getMultimedias());
+            Hibernate.initialize(producto.getUsuariosFavoritos()); // Inicializar la colección usuariosFavoritos
             return ProductoDtoConverter.fromProducto(producto);
         }
         return null;
@@ -144,25 +145,48 @@ public class ProductosController {
      */
     @PutMapping("/update/{id}")
     @Transactional
-    public ResponseEntity<Void> updateProduct(@PathVariable int id, @RequestBody Producto producto) {
-        Producto existingProduct = aplicacionProducto.buscar(id);
-        if (existingProduct != null) {
-            existingProduct.setNombre(producto.getNombre());
-            existingProduct.setPrecio(producto.getPrecio());
-            existingProduct.setStock(producto.getStock());
-            existingProduct.setDescripcion(producto.getDescripcion());
-            existingProduct.setColores(producto.getColores());
-            existingProduct.setMultimedias(producto.getMultimedias());
-            existingProduct.setCategorias(producto.getCategorias());
+    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody ProductoDTO productoDTO) {
+        try {
+            Producto existingProduct = aplicacionProducto.buscar(id);
 
-            if (aplicacionProducto.actualizar(existingProduct) != null) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            existingProduct.setNombre(productoDTO.getNombre());
+            existingProduct.setDescripcion(productoDTO.getDescripcion());
+            existingProduct.setPrecio(productoDTO.getPrecio());
+            existingProduct.setStock(productoDTO.getStock());
+        
+            List<Multimedia> multimediaList = new ArrayList<>();
+            for (MultimediaDTO multimediaDTO : productoDTO.getMultimedia()) {
+                multimediaList.add(aplicacionMultimedia.buscar(multimediaDTO.getUrl()));
             }
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+            List<Colore> colores = new ArrayList<>();
+            for (String coloreDTO : productoDTO.getColores()) {
+                colores.add(aplicacionColore.buscar(coloreDTO));
+            }
+
+            List<Categoria> categorias = new ArrayList<>();
+            for (String categoriaDTO : productoDTO.getCategorias()) {
+                categorias.add(aplicacionCategoria.buscar(categoriaDTO));
+            }
+            existingProduct.setColores(colores);
+            existingProduct.setCategorias(categorias);
+            existingProduct.setMultimedias(multimediaList);
+
+            if (aplicacionProducto.guardar(existingProduct) ) {
+                // return ResponseEntity.status(HttpStatus.CREATED).body(existingProduct);
+            return ResponseEntity.ok(existingProduct);
+
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
         }
+        
+        
     }
 
     /**
@@ -175,6 +199,7 @@ public class ProductosController {
     public List<ProductoDTO> verProductoesList() {
         List<ProductoDTO> productosDto = new ArrayList<>();
         for (Producto producto : aplicacionProducto.obtenerTodos()) {
+            Hibernate.initialize(producto.getUsuariosFavoritos()); // Inicializar la colección usuariosFavoritos
             productosDto.add(ProductoDtoConverter.fromProducto(producto));
         }
         return productosDto;
@@ -190,13 +215,11 @@ public class ProductosController {
     @GetMapping("/categoria/{nombre}")
     public List<ProductoDTO> getProductsByCategory(@PathVariable String nombre) {
         List<ProductoDTO> productosDto = new ArrayList<>();
-
         List<Producto> productos = aplicacionProducto.obtenerPorColeccion("categorias", "nombre", nombre);
-
         for (Producto producto : productos) {
+            Hibernate.initialize(producto.getUsuariosFavoritos()); // Inicializar la colección usuariosFavoritos
             productosDto.add(ProductoDtoConverter.fromProducto(producto));
         }
-
         return productosDto;
     }
 
@@ -224,15 +247,11 @@ public class ProductosController {
 @GetMapping("/buscar")
 public List<ProductoDTO> searchProducts(@RequestParam String campo, @RequestParam String query) {
     List<ProductoDTO> productosDto = new ArrayList<>();
-    
-    // Llamar al método genérico de búsqueda
     List<Producto> productos = aplicacionProducto.buscarPorCampo(campo, query);
-    
-    // Convertir los productos encontrados a ProductoDTO y agregarlos a la lista
     for (Producto producto : productos) {
+        Hibernate.initialize(producto.getUsuariosFavoritos()); // Inicializar la colección usuariosFavoritos
         productosDto.add(ProductoDtoConverter.fromProducto(producto));
     }
-
     return productosDto;
 }
 

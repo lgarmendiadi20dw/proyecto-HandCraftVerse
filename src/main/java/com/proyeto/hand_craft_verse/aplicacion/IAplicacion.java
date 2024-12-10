@@ -18,7 +18,7 @@ public interface IAplicacion<T> {
 
     public List<T> obtenerTodos();
 
-    public T actualizar(T t);
+    public boolean actualizar(T t);
 
     public List<T> obtenerPorColeccion(String collectionName, String attributeName, Object nombre);
 

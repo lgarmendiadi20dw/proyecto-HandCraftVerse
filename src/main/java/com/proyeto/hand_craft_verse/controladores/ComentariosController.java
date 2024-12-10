@@ -51,7 +51,7 @@ public class ComentariosController {
             existingComentario.setTexto(comentario.getTexto());
             existingComentario.setValoracion(comentario.getValoracion());
 
-            if (aplicacionComentario.actualizar(existingComentario) != null) {
+            if (aplicacionComentario.actualizar(existingComentario) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

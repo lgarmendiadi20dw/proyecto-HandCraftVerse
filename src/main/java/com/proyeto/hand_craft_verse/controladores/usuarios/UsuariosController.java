@@ -140,25 +140,25 @@ public class UsuariosController {
    
     
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody Usuario entity) {
+    // @PutMapping("/update/{id}")
+    // public ResponseEntity<Void> update(@PathVariable int id, @RequestBody UsuarioDTO entity) {
 
-        Usuario Usuario = aplicacionUsuario.buscar(id);
-        Usuario.setNombre(entity.getNombre());
-        Usuario.setApellidos(entity.getApellidos());
-        Usuario.setPassword(entity.getPassword());
-        Usuario.setUsername(entity.getUsername());
-        Usuario.setTelefono(entity.getTelefono());
-        Usuario.setEmail(entity.getEmail());
+    //     Usuario usuario = aplicacionUsuario.buscar(id);
+    //     usuario.setNombre(entity.getNombre());
+    //     usuario.setApellidos(entity.getApellidos());
+    //     usuario.setPassword(entity.getPassword());
+    //     usuario.setUsername(entity.getUsername());
+    //     usuario.setTelefono(entity.getTelefono());
+    //     usuario.setEmail(entity.getEmail());
 
-        if (aplicacionUsuario.actualizar(entity) != null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
-    }
+    //     if (aplicacionUsuario.actualizar(usuario)  {
+    //         return ResponseEntity.status(HttpStatus.NO_CONTENT)
+    //                 .body(null);
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+    //                 .body(null);
+    //     }
+    // }
 
     @GetMapping("/all")
     public List<Map<String, Object>> verUsuariosList() {

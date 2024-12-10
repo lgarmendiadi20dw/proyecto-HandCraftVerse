@@ -55,7 +55,7 @@ public class ColoresController {
             existingColor.setNombre(color.getNombre());
             // No se puede actualizar el 'hex' ya que es la clave primaria
 
-            if (aplicacionColore.actualizar(existingColor) != null) {
+            if (aplicacionColore.actualizar(existingColor) ) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

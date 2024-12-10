@@ -51,7 +51,7 @@ public class Producto {
     @JsonManagedReference
     private List<Comentario> comentarios;
 
-    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "productosFavoritos", cascade = { CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("productosFavoritos")
     private List<Usuario> usuariosFavoritos;
 
