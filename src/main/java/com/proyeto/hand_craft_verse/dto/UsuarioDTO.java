@@ -1,5 +1,6 @@
 package com.proyeto.hand_craft_verse.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class UsuarioDTO {
     private String email;
     private String imagen;
     private String password;
+    private List<Integer> direcion;
     private int telefono;
     private String roles;
 

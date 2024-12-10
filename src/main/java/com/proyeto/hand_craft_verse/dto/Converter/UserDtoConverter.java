@@ -1,5 +1,7 @@
 package com.proyeto.hand_craft_verse.dto.Converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -9,9 +11,11 @@ import com.proyeto.hand_craft_verse.dominio.usuarios.Admin;
 import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
+import com.proyeto.hand_craft_verse.dominio.direccion.Direccion;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 import com.proyeto.hand_craft_verse.dto.UsuarioDTO;
+
 
 import lombok.AllArgsConstructor;
 
@@ -71,6 +75,10 @@ public class UserDtoConverter {
     }
 
     public UsuarioDTO fromUsuarioToUsuarioDTO(Usuario usuario) {
+        List<Integer> direcciones = new ArrayList<>();
+        for (Direccion direccion : usuario.getDireccionesEnvio()) {
+            direcciones.add(direccion.getId());
+        }
         UsuarioDTO respuesta = UsuarioDTO.builder()
                 .id(usuario.getId())
                 .dni(usuario.getDni())
@@ -80,6 +88,7 @@ public class UserDtoConverter {
                 .email(usuario.getEmail())
                 .telefono(usuario.getTelefono())
                 .imagen(usuario.getImagen())
+                .direcion(direcciones)
                 .roles(usuario.getRoles()
                 .toString())
                 .build();
