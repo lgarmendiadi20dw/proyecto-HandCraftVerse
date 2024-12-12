@@ -6,6 +6,7 @@ import com.proyeto.hand_craft_verse.dominio.productos.Categoria;
 import com.proyeto.hand_craft_verse.dominio.productos.Colore;
 import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.Converter.DtoConverter;
 import com.proyeto.hand_craft_verse.dto.Converter.ProductoDtoConverter;
@@ -254,5 +255,7 @@ public List<ProductoDTO> searchProducts(@RequestParam String campo, @RequestPara
     }
     return productosDto;
 }
+
+
 
 }

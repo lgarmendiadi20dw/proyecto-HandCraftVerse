@@ -3,7 +3,9 @@ package com.proyeto.hand_craft_verse.controladores.usuarios;
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
 import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
+import com.proyeto.hand_craft_verse.dominio.usuarios.UserRoles;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
+import com.proyeto.hand_craft_verse.dominio.usuarios.Vendedor;
 import com.proyeto.hand_craft_verse.dto.LoginDTO;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
 import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
@@ -48,7 +50,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RestController
 @AllArgsConstructor
 @EnableMethodSecurity
@@ -61,6 +62,9 @@ public class UsuariosController {
     private IAplicacion<Producto> aplicacionProducto;
 
     @Autowired
+    private IAplicacion<Vendedor> aplicacionVendedor;
+
+    @Autowired
     private UserDtoConverter userDtoConverter;
 
     @Autowired
@@ -69,8 +73,7 @@ public class UsuariosController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @Autowired
-    private ProductoDtoConverter productoDtoConverter;
+    
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrar(@RequestBody UserRegisterDto user, HttpServletResponse response) {
@@ -111,7 +114,6 @@ public class UsuariosController {
     @PreAuthorize("isAuthenticated()")
     public UsuarioDTO getMethodName3(@AuthenticationPrincipal Usuario usuario) {
 
-        
         return userDtoConverter.fromUsuarioToUsuarioDTO(usuario);
 
     }
@@ -148,28 +150,29 @@ public class UsuariosController {
         }
 
     }
-   
-    
 
-    // @PutMapping("/update/{id}")
-    // public ResponseEntity<Void> update(@PathVariable int id, @RequestBody UsuarioDTO entity) {
+    @PutMapping("/update/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody UsuarioDTO entity) {
+        Usuario usuario = aplicacionUsuario.buscar(id); // Se asigna el usuario tipo Usuario
+        
 
-    //     Usuario usuario = aplicacionUsuario.buscar(id);
-    //     usuario.setNombre(entity.getNombre());
-    //     usuario.setApellidos(entity.getApellidos());
-    //     usuario.setPassword(entity.getPassword());
-    //     usuario.setUsername(entity.getUsername());
-    //     usuario.setTelefono(entity.getTelefono());
-    //     usuario.setEmail(entity.getEmail());
+        // Ahora, puedes proceder a actualizar los atributos del objeto `usuario`
+        usuario.setNombre(entity.getNombre());
+        usuario.setApellidos(entity.getApellidos());
+        // usuario.setPassword(passwordEncoder.encode(entity.getPassword()));
+        usuario.setUsername(entity.getUsername());
+        usuario.setTelefono(entity.getTelefono());
+        usuario.setEmail(entity.getEmail());
 
-    //     if (aplicacionUsuario.actualizar(usuario)  {
-    //         return ResponseEntity.status(HttpStatus.NO_CONTENT)
-    //                 .body(null);
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-    //                 .body(null);
-    //     }
-    // }
+        if (aplicacionUsuario.actualizar(usuario)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 
     @GetMapping("/all")
     public List<Map<String, Object>> verUsuariosList() {
@@ -228,13 +231,13 @@ public class UsuariosController {
         return ResponseEntity.ok("Logged out");
     }
 
-    @PostMapping("/{id}/favoritos")
+    @PostMapping("/{id}/addFavoritos/{productoId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> agregarProductoFavorito(@PathVariable int id, @RequestParam int productoId) {
+    public ResponseEntity<?> agregarProductoFavorito(@PathVariable int id, @PathVariable int productoId) {
         Usuario usuario = aplicacionUsuario.buscar(id);
         Producto producto = aplicacionProducto.buscar(productoId);
         if (usuario != null && producto != null) {
-            usuario.agregarProductoFavorito(producto);
+            usuario.getProductosFavoritos().add(producto);
             aplicacionUsuario.actualizar(usuario);
             return ResponseEntity.ok("Producto agregado a favoritos");
         } else {
@@ -242,18 +245,37 @@ public class UsuariosController {
         }
     }
 
-    @DeleteMapping("/{id}/favoritos")
+    @DeleteMapping("/{id}/deleteFavoritos/{productoId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> eliminarProductoFavorito(@PathVariable int id, @RequestParam int productoId) {
+    public ResponseEntity<?> eliminarProductoFavorito(@PathVariable int id, @PathVariable int productoId) {
+        // Buscar usuario y producto
         Usuario usuario = aplicacionUsuario.buscar(id);
         Producto producto = aplicacionProducto.buscar(productoId);
-        if (usuario != null && producto != null) {
-            usuario.eliminarProductoFavorito(producto);
-            aplicacionUsuario.actualizar(usuario);
-            return ResponseEntity.ok("Producto eliminado de favoritos");
-        } else {
+
+        // Validar que usuario y producto existan
+        if (usuario == null || producto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario o producto no encontrado");
         }
+
+        // Buscar el producto manualmente en la lista de favoritos
+        Producto productoFavorito = usuario.getProductosFavoritos().stream()
+                .filter(p -> p.getId() == productoId) // Comparar por ID
+                .findFirst()
+                .orElse(null);
+
+        if (productoFavorito == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("El producto no está en los favoritos del usuario");
+        }
+
+        // Eliminar la relación en ambas direcciones
+        usuario.getProductosFavoritos().remove(productoFavorito);
+        producto.getUsuariosFavoritos().remove(usuario);
+
+        // Actualizar el usuario
+        aplicacionUsuario.actualizar(usuario);
+
+        return ResponseEntity.ok("Producto eliminado de favoritos");
     }
 
     @GetMapping("/{id}/favoritos")
@@ -267,6 +289,27 @@ public class UsuariosController {
             return ResponseEntity.ok(productosFavoritos);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @GetMapping("/{usuarioId}/isFavorito/{productoId}")
+    public ResponseEntity<Boolean> esProductoFavorito(
+            @PathVariable int usuarioId,
+            @PathVariable int productoId) {
+        try {
+            // Buscar el usuario por su ID
+            Usuario usuario = aplicacionUsuario.buscar(usuarioId);
+
+            // Verificar si el productoId está en la lista de productos favoritos
+            boolean esFavorito = usuario.getProductosFavoritos().stream()
+                    .anyMatch(producto -> producto.getId() == productoId);
+
+            // Retornar true si está en favoritos, false si no lo está
+            return ResponseEntity.ok(esFavorito);
+        } catch (Exception e) {
+            // Manejo de excepciones (por ejemplo, si el usuario no existe)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(false);
         }
     }
 
