@@ -9,7 +9,9 @@ import com.proyeto.hand_craft_verse.dominio.productos.Multimedia;
 import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dto.Productos.MultimediaDTO;
 import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductoDtoConverter {
     public static ProductoDTO fromProducto(Producto producto) {
         ProductoDTO productoDTO = ProductoDTO.builder()
@@ -62,4 +64,6 @@ public class ProductoDtoConverter {
 
         return producto;
     }
+
+   
 }
