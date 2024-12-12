@@ -1,6 +1,8 @@
 package com.proyeto.hand_craft_verse.controladores.usuarios;
 
 import com.proyeto.hand_craft_verse.aplicacion.AplicacionUsuario;
+import com.proyeto.hand_craft_verse.aplicacion.IAplicacion;
+import com.proyeto.hand_craft_verse.dominio.productos.Producto;
 import com.proyeto.hand_craft_verse.dominio.usuarios.Usuario;
 import com.proyeto.hand_craft_verse.dto.LoginDTO;
 import com.proyeto.hand_craft_verse.dto.UserGetDto;
@@ -8,11 +10,14 @@ import com.proyeto.hand_craft_verse.dto.UserRegisterDto;
 import com.proyeto.hand_craft_verse.dto.UsuarioDTO;
 import com.proyeto.hand_craft_verse.dto.Converter.UserDtoConverter;
 import com.proyeto.hand_craft_verse.security.jwt.JwtTokenProvider;
+import com.proyeto.hand_craft_verse.dto.Productos.ProductoDTO;
+import com.proyeto.hand_craft_verse.dto.Converter.ProductoDtoConverter;
 
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -53,6 +58,9 @@ public class UsuariosController {
     private AplicacionUsuario aplicacionUsuario;
 
     @Autowired
+    private IAplicacion<Producto> aplicacionProducto;
+
+    @Autowired
     private UserDtoConverter userDtoConverter;
 
     @Autowired
@@ -60,6 +68,9 @@ public class UsuariosController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private ProductoDtoConverter productoDtoConverter;
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrar(@RequestBody UserRegisterDto user, HttpServletResponse response) {
@@ -215,6 +226,48 @@ public class UsuariosController {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return ResponseEntity.ok("Logged out");
+    }
+
+    @PostMapping("/{id}/favoritos")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> agregarProductoFavorito(@PathVariable int id, @RequestParam int productoId) {
+        Usuario usuario = aplicacionUsuario.buscar(id);
+        Producto producto = aplicacionProducto.buscar(productoId);
+        if (usuario != null && producto != null) {
+            usuario.agregarProductoFavorito(producto);
+            aplicacionUsuario.actualizar(usuario);
+            return ResponseEntity.ok("Producto agregado a favoritos");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario o producto no encontrado");
+        }
+    }
+
+    @DeleteMapping("/{id}/favoritos")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> eliminarProductoFavorito(@PathVariable int id, @RequestParam int productoId) {
+        Usuario usuario = aplicacionUsuario.buscar(id);
+        Producto producto = aplicacionProducto.buscar(productoId);
+        if (usuario != null && producto != null) {
+            usuario.eliminarProductoFavorito(producto);
+            aplicacionUsuario.actualizar(usuario);
+            return ResponseEntity.ok("Producto eliminado de favoritos");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario o producto no encontrado");
+        }
+    }
+
+    @GetMapping("/{id}/favoritos")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<ProductoDTO>> obtenerProductosFavoritos(@PathVariable int id) {
+        Usuario usuario = aplicacionUsuario.buscar(id);
+        if (usuario != null) {
+            List<ProductoDTO> productosFavoritos = usuario.getProductosFavoritos().stream()
+                    .map(ProductoDtoConverter::fromProducto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(productosFavoritos);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 }
