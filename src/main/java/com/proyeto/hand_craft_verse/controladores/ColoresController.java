@@ -65,6 +65,38 @@ public class ColoresController {
         }
     }
 
+    @PostMapping("/createAllDefaultColors")
+public ResponseEntity<List<Colore>> addDefaultColors() {
+    try {
+        // Lista de colores básicos por defecto
+        List<Colore> defaultColors = List.of(
+            new Colore("#FF0000", "Rojo"),
+            new Colore("#00FF00", "Verde"),
+            new Colore("#0000FF", "Azul"),
+            new Colore("#FFFF00", "Amarillo"),
+            new Colore("#FFA500", "Naranja"),
+            new Colore("#800080", "Morado"),
+            new Colore("#000000", "Negro"),
+            new Colore("#FFFFFF", "Blanco"),
+            new Colore("#808080", "Gris"),
+            new Colore("#FFC0CB", "Rosa")
+        );
+
+        // Guardar los colores en la base de datos
+        List<Colore> savedColors = defaultColors.stream()
+            .filter(aplicacionColore::guardar) // Guardar y filtrar los que se guardan con éxito
+            .toList();
+
+        if (!savedColors.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedColors);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+}
+
     @GetMapping("/all")
     public List<Colore> verColoresList() {
         return aplicacionColore.obtenerTodos();

@@ -47,6 +47,59 @@ public class VendedorController {
         return aplicacionVendedor.buscar(id);
     }
 
+    @PostMapping("/createSeller")
+    public ResponseEntity<?> createSellers(HttpServletResponse response) {
+        // Lista de usuarios a registrar
+        List<UserRegisterDto> users = List.of(
+            UserRegisterDto.builder()
+                .username("craftLover")
+                .email("craftlover@example.com")
+                .emailConfirm("craftlover@example.com")
+                .password("SecurePass123!")
+                .passwordConfirm("SecurePass123!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("artisanPro")
+                .email("artisanpro@example.com")
+                .emailConfirm("artisanpro@example.com")
+                .password("ProCraftsman456!")
+                .passwordConfirm("ProCraftsman456!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("handyArtist")
+                .email("handyartist@example.com")
+                .emailConfirm("handyartist@example.com")
+                .password("Creative123!")
+                .passwordConfirm("Creative123!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("uniqueCrafter")
+                .email("uniquecrafter@example.com")
+                .emailConfirm("uniquecrafter@example.com")
+                .password("UniquePass789!")
+                .passwordConfirm("UniquePass789!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("artCrafting")
+                .email("artcrafting@example.com")
+                .emailConfirm("artcrafting@example.com")
+                .password("ArtisticPass123!")
+                .passwordConfirm("ArtisticPass123!")
+                .build()
+        );
+    
+        // Registrar cada usuario
+        for (UserRegisterDto user : users) {
+            ResponseEntity<?> responseEntity = registrar(user, response);
+            if (responseEntity.getStatusCode() != HttpStatus.OK) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error registering user: " + user.getUsername());
+            }
+        }
+    
+        return ResponseEntity.ok("All users registered successfully");
+    }
+    
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrar(@RequestBody UserRegisterDto user, HttpServletResponse response) {

@@ -132,28 +132,59 @@ public class UsuariosController {
                     .body(null);
         }
     }
-
-    @PostMapping("/create")
-    public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario Usuario) {
-
-        try {
-
-            if (aplicacionUsuario.guardar(Usuario)) {
-                return ResponseEntity.status(HttpStatus.CREATED)
-                        .body(Usuario);
-            } else {
+    @PostMapping("/createBuyers")
+    public ResponseEntity<?> createBuyers(HttpServletResponse response) {
+        // Lista de usuarios compradores a registrar
+        List<UserRegisterDto> buyers = List.of(
+            UserRegisterDto.builder()
+                .username("shopper101")
+                .email("shopper101@example.com")
+                .emailConfirm("shopper101@example.com")
+                .password("BuySafe123!")
+                .passwordConfirm("BuySafe123!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("happyBuyer")
+                .email("happybuyer@example.com")
+                .emailConfirm("happybuyer@example.com")
+                .password("Purchase456!")
+                .passwordConfirm("Purchase456!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("craftFanatic")
+                .email("craftfanatic@example.com")
+                .emailConfirm("craftfanatic@example.com")
+                .password("LoveCraft789!")
+                .passwordConfirm("LoveCraft789!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("onlineHunter")
+                .email("onlinehunter@example.com")
+                .emailConfirm("onlinehunter@example.com")
+                .password("Deals4You!")
+                .passwordConfirm("Deals4You!")
+                .build(),
+            UserRegisterDto.builder()
+                .username("marketSeeker")
+                .email("marketseeker@example.com")
+                .emailConfirm("marketseeker@example.com")
+                .password("SeekerPass123!")
+                .passwordConfirm("SeekerPass123!")
+                .build()
+        );
+    
+        // Registrar cada comprador
+        for (UserRegisterDto buyer : buyers) {
+            ResponseEntity<?> responseEntity = registrar(buyer, response);
+            if (responseEntity.getStatusCode() != HttpStatus.OK) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(null);
+                    .body("Error registering buyer: " + buyer.getUsername());
             }
-
-        } catch (Exception e) {
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
-
         }
-
+    
+        return ResponseEntity.ok("All buyers registered successfully");
     }
+    
 
     @PutMapping("/update/{id}")
 @PreAuthorize("isAuthenticated()")

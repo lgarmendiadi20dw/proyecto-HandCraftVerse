@@ -62,10 +62,6 @@ public ResponseEntity<List<Categoria>> addDefaultCategorias() {
                 .descripcion("Collares, pulseras, anillos y otros accesorios hechos a mano con materiales únicos.")
                 .build(),
             CategoriaDTO.builder()
-                .nombre("Ropa y textiles")
-                .descripcion("Prendas de vestir, bufandas, bolsos y mantas elaboradas artesanalmente.")
-                .build(),
-            CategoriaDTO.builder()
                 .nombre("Arte y pintura")
                 .descripcion("Obras de arte originales como cuadros, ilustraciones y esculturas hechas a mano.")
                 .build(),
@@ -80,18 +76,6 @@ public ResponseEntity<List<Categoria>> addDefaultCategorias() {
             CategoriaDTO.builder()
                 .nombre("Cerámica y vidrio")
                 .descripcion("Vajillas, jarrones y artículos decorativos hechos de cerámica o vidrio soplado.")
-                .build(),
-            CategoriaDTO.builder()
-                .nombre("Papelería y libros")
-                .descripcion("Cuadernos, agendas, tarjetas de felicitación y libros únicos hechos a mano.")
-                .build(),
-            CategoriaDTO.builder()
-                .nombre("Cuidado personal")
-                .descripcion("Jabones, velas, cosméticos y otros productos artesanales para el cuidado personal.")
-                .build(),
-            CategoriaDTO.builder()
-                .nombre("Gastronomía y bebidas")
-                .descripcion("Productos gourmet como mermeladas, chocolates, especias y licores hechos a mano.")
                 .build()
         );
 
