@@ -34,6 +34,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -72,6 +73,9 @@ public class UsuariosController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+     private PasswordEncoder passwordEncoder;
 
     
 
@@ -152,27 +156,40 @@ public class UsuariosController {
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Void> update(@PathVariable int id, @RequestBody UsuarioDTO entity) {
-        Usuario usuario = aplicacionUsuario.buscar(id); // Se asigna el usuario tipo Usuario
+@PreAuthorize("isAuthenticated()")
+public ResponseEntity<Void> update(@PathVariable int id, @RequestBody UsuarioDTO entity, HttpServletResponse response) {
+    Usuario usuario = aplicacionUsuario.buscar(id); // Se asigna el usuario tipo Usuario
+
+    // Ahora, puedes proceder a actualizar los atributos del objeto `usuario`
+    usuario.setNombre(entity.getNombre());
+    usuario.setApellidos(entity.getApellidos());
+    usuario.setPassword(passwordEncoder.encode(entity.getPassword()));
+    usuario.setUsername(entity.getUsername());  // Actualizamos el username
+    usuario.setTelefono(entity.getTelefono());
+    usuario.setEmail(entity.getEmail());
+
+    if (aplicacionUsuario.actualizar(usuario)) {
+        // Generamos un nuevo token JWT después de la actualización
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(usuario.getUsername(), entity.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+        ResponseCookie cookie = ResponseCookie.from("jwt", jwt)
+                .path("/")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .build();
         
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        // Ahora, puedes proceder a actualizar los atributos del objeto `usuario`
-        usuario.setNombre(entity.getNombre());
-        usuario.setApellidos(entity.getApellidos());
-        // usuario.setPassword(passwordEncoder.encode(entity.getPassword()));
-        usuario.setUsername(entity.getUsername());
-        usuario.setTelefono(entity.getTelefono());
-        usuario.setEmail(entity.getEmail());
-
-        if (aplicacionUsuario.actualizar(usuario)) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+}
+
 
     @GetMapping("/all")
     public List<Map<String, Object>> verUsuariosList() {
